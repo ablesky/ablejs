@@ -1,0 +1,17 @@
+{
+  "name": "ablesky_statices",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-init": "~0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD"
+}

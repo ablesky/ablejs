@@ -1,0 +1,4 @@
+statics_build
+=============
+
+statics

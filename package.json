@@ -1,17 +1,20 @@
 {
-  "name": "ablesky_statices",
+  "name": "ablesky_static_build",
   "version": "0.0.0",
   "description": "",
+  "homepage": "http://www.ablesky.com",
   "main": "index.js",
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.9",
     "grunt-init": "~0.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt-contrib-requirejs": "~0.4.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "bxu@ablesky.com",
   "license": "BSD"
 }

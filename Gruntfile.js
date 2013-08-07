@@ -128,11 +128,6 @@ module.exports = function(grunt) {
 						return contents;
 					}
 				}
-			},
-			ablesky: {
-				analytics: {
-
-				}
 			}
 		}
 	});

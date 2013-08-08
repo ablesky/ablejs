@@ -1,5 +1,11 @@
-/*global module:false*/
+/*global module:false,require:false,JSON:false*/
 module.exports = function(grunt) {
+
+	//'use strict';
+	var fs = require('fs');
+	var buildContent = fs.readFileSync('js/lib/app.build.js', 'utf8');
+	var buildProfile = JSON.parse(buildContent.replace(/(^\(|\)\s*$)/g, ''));
+	// console.log(buildProfile);
 
 	// Project configuration.
 	grunt.initConfig({
@@ -62,11 +68,7 @@ module.exports = function(grunt) {
 		},
 		requirejs: {
 			compile: {
-				options: {
-					baseUrl: "js",
-					mainConfigFile: "js/lib/app.build.js",
-					out: "js_optimize"
-				}
+				options: buildProfile
 			}
 		}
 	});

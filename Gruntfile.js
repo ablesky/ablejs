@@ -94,8 +94,11 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
+			options: {
+				interrupt: true
+			},
 			default: {
-				files: '<%= pkg.config.src %>',
+				files: '<%= pkg.config.src %>/**/*.js',
 				tasks: ['build']
 			}
 		},

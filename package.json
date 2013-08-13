@@ -3,18 +3,33 @@
   "version": "0.0.0",
   "description": "",
   "homepage": "http://www.ablesky.com",
-  "main": "index.js",
+  "main": "",
+  "config": {
+    "src": "js",
+    "dest": "js_optimize"
+  },
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.9",
     "grunt-init": "~0.2.1"
   },
   "devDependencies": {
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-cli": "~0.1.9"
+  },
+  "bin": {
+    "grunt": "node_modules/grunt-cli/bin/grunt"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "bxu@ablesky.com",
-  "license": "BSD"
+  "license": "BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ablesky/statics_build.git"
+  }
 }

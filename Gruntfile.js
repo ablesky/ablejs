@@ -94,13 +94,9 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			gruntfile: {
-				files: '<%= jshint.gruntfile.src %>',
-				tasks: ['jshint:gruntfile']
-			},
-			lib_test: {
-				files: '<%= jshint.lib_test.src %>',
-				tasks: ['jshint:lib_test']
+			default: {
+				files: '<%= pkg.config.src %>',
+				tasks: ['build']
 			}
 		},
 		requirejs: {
@@ -154,7 +150,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// Default task.
-	grunt.registerTask('default', ['jshint', 'copy', 'uglify', 'logs']);
+	grunt.registerTask('build', ['jshint', 'copy', 'uglify', 'logs']);
+	grunt.registerTask('default', ['build', 'watch']);
 
 };
 

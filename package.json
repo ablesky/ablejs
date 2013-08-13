@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "homepage": "http://www.ablesky.com",
-  "main": "",
+  "main": "Gruntfile.js",
   "config": {
     "src": "js",
     "dest": "js_optimize"

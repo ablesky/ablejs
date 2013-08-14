@@ -49,11 +49,23 @@ module.exports = function(grunt) {
 				// Enable dynamic expansion.
 				expand: true,
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.src %>/',
+				cwd: '<%= pkg.config.src %>',
 				// match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
 				src: '**/*.js',
 				// Destination path prefix.
-				dest: '<%= pkg.config.dest %>/'
+				dest: '<%= pkg.config.dest %>'
+			}
+		},
+		transport: {
+			options: {
+				
+			},
+			dist: {
+				files: [{
+					cwd: '<%= pkg.config.src %>',
+					src: '**/*.js',
+					dest: '<%= pkg.config.dest %>'
+				}]
 			}
 		},
 		concat: {
@@ -95,7 +107,8 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			options: {
-				interrupt: true
+				interrupt: true,
+				interval: 5007 // 5007 is the old node polling default
 			},
 			default: {
 				files: '<%= pkg.config.src %>/**/*.js',
@@ -110,22 +123,23 @@ module.exports = function(grunt) {
 					dir: '<%= pkg.config.dest %>',
 					useSourceUrl: false,
 					optimize: 'none',
-					generateSourceMaps: true,
+					generateSourceMaps: false,
 					preserveLicenseComments: false,
 					rawText: {
-						jquery: ''
+						'jquery': '',
 					},
+					optimizeAllPluginResources: true,
 					findNestedDependencies: true,
 					modules: [{
-						name: 'index/index-init',
-						exclude: ['common/global']
+						name: 'index/index-init'
 					}],
+					// stubModules: ['common/global'],
 					onBuildRead: function(moduleName, path, contents) {
 						//Always return a value.
-						//This is just a contrived example.
-						console.log('custom build read: ' + moduleName);
+						console.log('reading: ' + path);
 						if (moduleName === 'common/global') {}
-						return contents;
+
+						return contents.replace(/^define\("common\/global",\s*function\(\){}\);$/ig, '');
 					}
 				}
 			}
@@ -140,7 +154,8 @@ module.exports = function(grunt) {
 	});
 
 	// These plugins provide necessary tasks.
-	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-cmd-transport');
+	grunt.loadNpmTasks('grunt-cmd-concat');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -148,7 +163,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// Default task.
-	grunt.registerTask('build', ['jshint', 'copy', 'uglify', 'logs']);
+	grunt.registerTask('build', ['jshint', 'transport', 'concat','copy', 'uglify', 'logs']);
 	grunt.registerTask('default', ['build', 'watch']);
 
 };

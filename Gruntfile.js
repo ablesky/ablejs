@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 	var pkg = grunt.file.readJSON('package.json');
 
 	function getRequireJSProfile() {
-		return grunt.file.readJSON(pkg.config.src + '/lib/profile.json');
+		return grunt.file.readJSON(pkg.config.src + '/profile.json');
 	}
 
 	/**
@@ -47,6 +47,9 @@ module.exports = function(grunt) {
 		// Task configuration.
 		// http://www.jshint.com/docs/options/
 		jshint: {
+			options: {
+				jshintrc: '.jshintrc'
+			},
 			gruntfile: {
 				expand: true,
 				src: ['Gruntfile.js', '!<%= pkg.config.src %>/**/*.js']

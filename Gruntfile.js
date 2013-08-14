@@ -47,29 +47,6 @@ module.exports = function(grunt) {
 		// Task configuration.
 		// http://www.jshint.com/docs/options/
 		jshint: {
-			options: {
-				evil: true,
-				curly: true,
-				eqeqeq: true,
-				immed: true,
-				latedef: true,
-				newcap: true,
-				noarg: true,
-				sub: true,
-				undef: true,
-				unused: 'vars',
-				boss: true,
-				eqnull: true,
-				smarttabs: true,
-				globals: {
-					jQuery: true,
-					module: true,
-					require: true,
-					JSON: true,
-					console: true,
-					setTimeout: true
-				}
-			},
 			gruntfile: {
 				expand: true,
 				src: ['Gruntfile.js', '!<%= pkg.config.src %>/**/*.js']

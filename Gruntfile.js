@@ -133,13 +133,19 @@ module.exports = function(grunt) {
 					modules: [{
 						name: 'index/index-init'
 					}],
-					// stubModules: ['common/global'],
+					stubModules: ['common/global'],
 					onBuildRead: function(moduleName, path, contents) {
-						//Always return a value.
 						console.log('reading: ' + path);
+
+						// Always return a value.
+						return contents;
+					},
+					onBuildWrite: function(moduleName, path, contents) {
+						console.log('writing: ' + path);
 						if (moduleName === 'common/global') {}
 
-						return contents.replace(/^define\("common\/global",\s*function\(\){}\);$/ig, '');
+						// Always return a value.
+						return contents.replace(/^define\("common\/global",\s*[\w|\W]*\);$/ig, '');
 					}
 				}
 			}

@@ -145,7 +145,7 @@ module.exports = function(grunt) {
 						if (moduleName === 'common/global') {}
 
 						// Always return a value.
-						return contents.replace(/^define\("common\/global",\s*[\w|\W]*\);$/ig, '');
+						return contents.replace(/^define\(['|"]common\/global['|"],\s*[\w|\W]*\);$/ig, '');
 					}
 				}
 			}

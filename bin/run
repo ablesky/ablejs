@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var grunt = require('../node_modules/grunt-cli/bin/grunt');
+console.log(grunt);

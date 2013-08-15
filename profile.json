@@ -1,0 +1,9 @@
+{
+    "modules": [
+        "index/index-init",
+        "index/login-init"
+    ],
+    "excludes": [
+        "common/global"
+    ],
+}

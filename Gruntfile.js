@@ -6,6 +6,33 @@ module.exports = function(grunt) {
 	// var fs = require('fs');
 	var pkg = grunt.file.readJSON('package.json');
 
+	function getRequireJSProfile() {
+		// Force task into async mode and grab a handle to the "done" function.
+		// var done = this.async();
+		var profile = grunt.file.readJSON('dist/profile.json'); // profile for requirejs task, include modules
+		var _modules = profile.modules; 	// app modules
+		var _excludes = profile.excludes; 	// excludes common modules
+		var _targetModules = [];
+
+		// push common modules
+		_excludes.forEach(function(element, i, array) {
+			_targetModules.push({
+				name: element
+			});
+		});
+
+		// push app modules
+		_modules.forEach(function(element, i, array) {
+			_targetModules.push({
+				name: element,
+				exclude: _excludes
+			});
+		});
+
+		console.log(_targetModules);
+		return _targetModules;
+	}
+
 	// Project configuration.
 	grunt.initConfig({
 		// Metadata.
@@ -58,7 +85,7 @@ module.exports = function(grunt) {
 		},
 		transport: {
 			options: {
-				
+
 			},
 			dist: {
 				files: [{
@@ -110,7 +137,7 @@ module.exports = function(grunt) {
 				interrupt: true,
 				interval: 5007 // 5007 is the old node polling default
 			},
-			default: {
+			build: {
 				files: '<%= pkg.config.src %>/**/*.js',
 				tasks: ['build']
 			}
@@ -121,19 +148,19 @@ module.exports = function(grunt) {
 					allConfigurationOptionsUrl: 'https://github.com/jrburke/r.js/blob/master/build/example.build.js',
 					baseUrl: '<%= pkg.config.src %>',
 					dir: '<%= pkg.config.dest %>',
+					paths: {
+						'jquery': 'empty:'
+					},
+					useStrict: true,
 					useSourceUrl: false,
 					optimize: 'none',
 					generateSourceMaps: false,
 					preserveLicenseComments: false,
-					rawText: {
-						'jquery': '',
-					},
-					optimizeAllPluginResources: true,
+					keepBuildDir: true,
+					skipDirOptimize: true,
+					optimizeAllPluginResources: false,
 					findNestedDependencies: true,
-					modules: [{
-						name: 'index/index-init'
-					}],
-					stubModules: ['common/global'],
+					modules: getRequireJSProfile(),
 					onBuildRead: function(moduleName, path, contents) {
 						console.log('reading: ' + path);
 
@@ -145,7 +172,8 @@ module.exports = function(grunt) {
 						if (moduleName === 'common/global') {}
 
 						// Always return a value.
-						return contents.replace(/^define\(['|"]common\/global['|"],\s*[\w|\W]*\);$/ig, '');
+						// return contents.replace(/^define\(['|"]common\/global['|"],\s*[\w|\W]*\);$/ig, '');
+						return contents;
 					}
 				}
 			}
@@ -165,12 +193,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Default task.
-	grunt.registerTask('build', ['jshint', 'transport', 'concat','copy', 'uglify', 'logs']);
+	grunt.registerTask('build', ['jshint', 'transport', 'concat', 'copy', 'uglify', 'logs']);
 	grunt.registerTask('default', ['build', 'watch']);
+	// grunt.registerTask('default', ['requirejs-profile']);
 
 };
-

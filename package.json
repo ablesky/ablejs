@@ -1,7 +1,7 @@
 {
   "name": "ablesky_static_build",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "statics_build =============",
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
@@ -19,9 +19,12 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-cli": "~0.1.9",
-    "grunt-contrib-watch": "~0.5.1"
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-cmd-concat": "~0.2.5",
+    "grunt-cmd-transport": "~0.2.9"
   },
   "bin": {
+    "build": "bin/run",
     "grunt": "node_modules/grunt-cli/bin/grunt"
   },
   "scripts": {
@@ -32,5 +35,14 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ablesky/statics_build.git"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/ablesky/statics_build/issues"
+  },
+  "keywords": [
+    "ablesky",
+    "statics",
+    "build",
+    "task"
+  ]
 }

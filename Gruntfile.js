@@ -2,16 +2,23 @@
 module.exports = function(grunt) {
 
 	'use strict';
-	var buildStartTime = new Date();
+
 	// var fs = require('fs');
+	var buildStartTime = new Date();
 	var pkg = grunt.file.readJSON('package.json');
 
 	function getRequireJSProfile() {
-		// Force task into async mode and grab a handle to the "done" function.
-		// var done = this.async();
-		var profile = grunt.file.readJSON('dist/profile.json'); // profile for requirejs task, include modules
-		var _modules = profile.modules; 	// app modules
-		var _excludes = profile.excludes; 	// excludes common modules
+		return grunt.file.readJSON(pkg.config.src + '/lib/profile.json');
+	}
+
+	/**
+	 *	get profile for requirejs task, include modules
+	 */
+	function getRequireJSModules() {
+
+		var profile = getRequireJSProfile();
+		var _modules = profile.modules; // app modules
+		var _excludes = profile.excludes; // excludes common modules
 		var _targetModules = [];
 
 		// push common modules
@@ -29,7 +36,6 @@ module.exports = function(grunt) {
 			});
 		});
 
-		console.log(_targetModules);
 		return _targetModules;
 	}
 
@@ -39,72 +45,7 @@ module.exports = function(grunt) {
 		pkg: pkg,
 		banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %>\n' + '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 		// Task configuration.
-		copy: {
-			options: {
-				banner: '<%= banner %>',
-				processContent: function(content, srcpath) {
-					grunt.log.writeln('copying non-js file to ' + pkg.config.dest + '/: "' + srcpath + '"');
-				}
-			},
-			target: {
-				// Flattening the filepath output
-				flatten: true,
-				// Enable dynamic expansion.
-				expand: true,
-				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.src %>/',
-				// match all files except for *.js 
-				src: ['**/*', '!**/*.js'],
-				// Destination path prefix.
-				dest: '<%= pkg.config.dest %>/',
-				filter: 'isFile'
-
-			}
-		},
-		uglify: {
-			options: {
-				banner: '<%= banner %>',
-				compress: {
-					global_defs: {
-						"DEBUG": false
-					},
-					drop_debugger: true,
-					dead_code: true
-				}
-			},
-			target: {
-				// Enable dynamic expansion.
-				expand: true,
-				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.src %>',
-				// match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-				src: '**/*.js',
-				// Destination path prefix.
-				dest: '<%= pkg.config.dest %>'
-			}
-		},
-		transport: {
-			options: {
-
-			},
-			dist: {
-				files: [{
-					cwd: '<%= pkg.config.src %>',
-					src: '**/*.js',
-					dest: '<%= pkg.config.dest %>'
-				}]
-			}
-		},
-		concat: {
-			options: {
-				banner: '<%= banner %>',
-				stripBanners: true
-			},
-			dist: {
-				src: ['lib/<%= pkg.name %>.js'],
-				dest: 'dist/<%= pkg.name %>.js'
-			}
-		},
+		// http://www.jshint.com/docs/options/
 		jshint: {
 			options: {
 				evil: true,
@@ -116,9 +57,10 @@ module.exports = function(grunt) {
 				noarg: true,
 				sub: true,
 				undef: true,
-				unused: true,
+				unused: 'vars',
 				boss: true,
 				eqnull: true,
+				smarttabs: true,
 				globals: {
 					jQuery: true,
 					module: true,
@@ -129,17 +71,61 @@ module.exports = function(grunt) {
 				}
 			},
 			gruntfile: {
-				src: 'Gruntfile.js'
+				expand: true,
+				src: ['Gruntfile.js', '!<%= pkg.config.src %>/**/*.js']
 			}
 		},
-		watch: {
+		concat: {
 			options: {
-				interrupt: true,
-				interval: 5007 // 5007 is the old node polling default
+				banner: '<%= banner %>'
 			},
-			build: {
-				files: '<%= pkg.config.src %>/**/*.js',
-				tasks: ['build']
+			jquery_plugins: {
+				expand: true,
+				src: ['<%= pkg.config.src %>/lib/jquery/jquery-*.js'],
+				dest: '<%= pkg.config.dest %>/lib/jquery-min.js'
+			}
+		},
+		// copy: {
+		// 	options: {
+		// 		banner: '<%= banner %>',
+		// 		processContent: function(content, srcpath) {
+		// 			grunt.log.writeln('copying non-js file to ' + pkg.config.dest + '/: "' + srcpath + '"');
+		// 		}
+		// 	},
+		// 	target: {
+		// 		// Flattening the filepath output
+		// 		flatten: true,
+		// 		// Enable dynamic expansion.
+		// 		expand: true,
+		// 		// Src matches are relative to this path.
+		// 		cwd: '<%= pkg.config.src %>/',
+		// 		// match all files except for *.js 
+		// 		src: ['**/*', '!**/*.js'],
+		// 		// Destination path prefix.
+		// 		dest: '<%= pkg.config.dest %>/',
+		// 		filter: 'isFile'
+		// 	}
+		// },
+		uglify: {
+			options: {
+				banner: '<%= banner %>',
+				compress: {
+					global_defs: {
+						"DEBUG": false
+					},
+					drop_debugger: true,
+					dead_code: true
+				}
+			},
+			dist: {
+				// Enable dynamic expansion.
+				expand: true,
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest %>',
+				// match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
+				src: '**/*.js',
+				// Destination path prefix.
+				dest: '<%= pkg.config.dest %>'
 			}
 		},
 		requirejs: {
@@ -160,7 +146,7 @@ module.exports = function(grunt) {
 					skipDirOptimize: true,
 					optimizeAllPluginResources: false,
 					findNestedDependencies: true,
-					modules: getRequireJSProfile(),
+					modules: getRequireJSModules(),
 					onBuildRead: function(moduleName, path, contents) {
 						console.log('reading: ' + path);
 
@@ -169,13 +155,22 @@ module.exports = function(grunt) {
 					},
 					onBuildWrite: function(moduleName, path, contents) {
 						console.log('writing: ' + path);
-						if (moduleName === 'common/global') {}
 
 						// Always return a value.
 						// return contents.replace(/^define\(['|"]common\/global['|"],\s*[\w|\W]*\);$/ig, '');
 						return contents;
 					}
 				}
+			}
+		},
+		watch: {
+			options: {
+				interrupt: true,
+				interval: 5007 // 5007 is the old node polling default
+			},
+			src: {
+				files: '<%= pkg.config.src %>/**/*.js',
+				tasks: ['watching']
 			}
 		}
 	});
@@ -184,21 +179,23 @@ module.exports = function(grunt) {
 		// Force task into async mode and grab a handle to the "done" function.
 		// var done = this.async();
 		var buildEndTime = new Date();
-		grunt.log.write('Start Time: ' + buildStartTime + '\n' + 'End Time:   ' + buildEndTime + '\n' + 'Statics build total time: ' + (buildEndTime - buildStartTime) + 'ms');
+		grunt.log.write('Start Time: ' + buildStartTime + '\n' + 'End Time:   ' + buildEndTime + '\n' + 'Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
 	});
 
 	// These plugins provide necessary tasks.
-	grunt.loadNpmTasks('grunt-cmd-transport');
-	grunt.loadNpmTasks('grunt-cmd-concat');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
+
+	// Watching task.
+	grunt.registerTask('watching', ['jshint', 'requirejs', 'logs']); // when watching task run, it will not use uglify task. just auto uglify by expand option.
+	// Build task.
+	grunt.registerTask('build', ['jshint', 'requirejs', 'concat', 'uglify', 'logs']);
 	// Default task.
-	grunt.registerTask('build', ['jshint', 'transport', 'concat', 'copy', 'uglify', 'logs']);
 	grunt.registerTask('default', ['build', 'watch']);
-	// grunt.registerTask('default', ['requirejs-profile']);
 
 };

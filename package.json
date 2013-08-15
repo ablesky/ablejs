@@ -24,6 +24,7 @@
     "grunt-cmd-transport": "~0.2.9"
   },
   "bin": {
+    "build": "bin/run",
     "grunt": "node_modules/grunt-cli/bin/grunt"
   },
   "scripts": {

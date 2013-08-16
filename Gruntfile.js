@@ -51,6 +51,19 @@ module.exports = function(grunt) {
 				src: ['<%= pkg.config.dest_js %>']
 			}
 		},
+		concat: {
+			options: {
+				banner: '<%= banner %>'
+			},
+			css: {
+				expand: true,
+				cwd: '<%= pkg.config.src_css %>',
+				dest: '<%= pkg.config.dest_css %>',
+				src: ['common/global.css', 'extCssNew.css', 'data-view.css', 'comment.css', 'common/site-nav.css', 'head.css', 
+					'foot.css', 'webim.css', 'support.css', 'jquery/datatables.css', 'jquery/datepicker.css', 'jquery/dialog.css'],
+				dest: '<%= pkg.config.dest_css %>/css-min.css'
+			}
+		},
 		// http://www.jshint.com/docs/options/
 		jshint: {
 			options: {
@@ -72,7 +85,17 @@ module.exports = function(grunt) {
 					dead_code: true
 				}
 			},
-			dist: {
+			js: {
+				// Enable dynamic expansion.
+				expand: true,
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_js %>',
+				// match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
+				src: '**/*.js',
+				// Destination path prefix.
+				dest: '<%= pkg.config.dest_js %>'
+			},
+			css: {
 				// Enable dynamic expansion.
 				expand: true,
 				// Src matches are relative to this path.
@@ -149,8 +172,9 @@ module.exports = function(grunt) {
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Watching task.

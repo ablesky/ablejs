@@ -27,7 +27,7 @@
     "mkdirp": "~0.3.5"
   },
   "bin": {
-    "ablejs": "bin/run"
+    "ablejs": "node_modules/grunt-cli/bin/grunt"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

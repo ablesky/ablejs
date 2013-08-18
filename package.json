@@ -1,7 +1,7 @@
 {
-  "name": "ablesky_static_build",
-  "version": "0.1.0",
-  "description": "statics_build =============",
+  "name": "ablejs",
+  "version": "0.1.1",
+  "description": "The statics build tools for ablesky",
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
@@ -27,8 +27,7 @@
     "mkdirp": "~0.3.5"
   },
   "bin": {
-    "build": "bin/run",
-    "grunt": "node_modules/grunt-cli/bin/grunt"
+    "ablejs": "bin/run"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,15 +36,12 @@
   "license": "BSD",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ablesky/statics_build.git"
+    "url": "https://github.com/ablesky/ablejs.git"
   },
   "bugs": {
-    "url": "https://github.com/ablesky/statics_build/issues"
+    "url": "https://github.com/ablesky/ablejs/issues"
   },
   "keywords": [
-    "ablesky",
-    "statics",
-    "build",
-    "task"
+    "ablesky"
   ]
 }

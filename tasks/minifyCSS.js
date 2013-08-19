@@ -1,28 +1,27 @@
 /**
  * A grunt task that minify css files by using node package "clean-css"
+ * clean-css: https://github.com/GoalSmashers/clean-css
  */
 
-module.exports = function() {
+module.exports = function(grunt) {
 	'use strict';
 
-	var grunt = require('grunt');
 	var path = require('path');
+	var fs = require('fs');
 
 	var minifyCSS = function(source, options) {
 		try {
 			return require('clean-css').process(source, options);
 		} catch (e) {
 			grunt.log.error(e);
-			grunt.fail.warn('css minification failed.');
 		}
 	};
 
 	grunt.registerMultiTask('minifyCSS', 'Minify CSS files', function() {
 		var options = this.options();
 
-		this.files.forEach(function(f) {
-			var valid = f.src.filter(function(filepath) {
-				// Warn on and remove invalid source files (if nonull was set).
+		this.files.forEach(function(element, i, array) {
+			array = element.src.filter(function(filepath) {
 				if (!grunt.file.exists(filepath)) {
 					grunt.log.warn('Source file "' + filepath + '" not found.');
 					return false;
@@ -31,24 +30,24 @@ module.exports = function() {
 				}
 			});
 
-			var max = valid.map(grunt.file.read).join(grunt.util.normalizelf(grunt.util.linefeed));
-			var min = valid.map(function(f) {
-				options.relativeTo = path.dirname(f);
-				return minifyCSS(grunt.file.read(f), options);
+			var minified = array.map(function(filename) {
+				return minifyCSS(fs.readFileSync(filename, 'utf8'), {
+					relativeTo: path.dirname(filename) //  path with which to resolve relative @import rules
+				});
 			}).join('');
 
-			if (min.length < 1) {
+			if (minified.length < 1) {
 				grunt.log.warn('Destination not written because minified CSS was empty.');
 			} else {
 				if (options.banner) {
-					min = options.banner + grunt.util.linefeed + min;
+					minified = options.banner + minified;
 				}
-				
-				grunt.file.write(f.dest, min);
-				grunt.log.writeln('File ' + f.dest + ' created.');
+
+				fs.writeFileSync(element.dest, minified, 'utf8');
+				grunt.log.writeln('Compressed CSS File: ' + element.dest);
 			}
 		});
 	});
 
-	
+
 };

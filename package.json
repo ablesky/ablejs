@@ -5,12 +5,12 @@
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
-    "src_js": "js",
-    "dest_js": "js_optimize",
-    "src_css": "css",
-    "dest_css": "stylecss_optimize",
-    "src_image": "images",
-    "dest_image": "images"
+    "src_js": "../asbuild/js",
+    "dest_js": "../asbuild/js_optimize",
+    "src_css": "../asbuild/css",
+    "dest_css": "../asbuild/stylecss_optimize",
+    "src_image": "../asbuild/images",
+    "dest_image": "../asbuild/images"
   },
   "dependencies": {
     "grunt": "~0.4.1",

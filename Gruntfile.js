@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 		},
 		crc32: {
 			files: {
-				src: ['<%= pkg.config.src_img %>/**/*'],
+				src: ['<%= pkg.config.dest_img %>/**/*'],
 				filter: 'isFile'
 			}
 		},
@@ -50,7 +50,8 @@ module.exports = function(grunt) {
 				// match all files in the ${cwd}/ subdirectory and all of its subdirectories.
 				src: ['**/*'],
 				// Destination path prefix.
-				dest: '<%= pkg.config.dest_img %>'
+				dest: '<%= pkg.config.dest_img %>',
+				filter: 'isFile'
 			}
 		},
 		concat: {

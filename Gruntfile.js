@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 		// Task configuration.
 		clean: {
 			dist: {
-				src: ['<%= pkg.config.dest_js %>']
+				src: ['<%= pkg.config.dest_js %>', '<%= pkg.config.dest_css %>']
 			}
 		},
 		concat: {
@@ -103,9 +103,9 @@ module.exports = function(grunt) {
 				// Enable dynamic expansion.
 				expand: true,
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_css %>',
-				// match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-				src: '**/*.js',
+				cwd: '<%= pkg.config.src_css %>',
+				// match all files ending with .css in the ${cwd}/ subdirectory and all of its subdirectories.
+				src: '**/*.css',
 				// Destination path prefix.
 				dest: '<%= pkg.config.dest_css %>'
 			}

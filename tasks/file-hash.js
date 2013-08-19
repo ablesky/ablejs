@@ -31,10 +31,10 @@ module.exports = function(grunt) {
 
 				var hash = getFileHash(filepath);
 				var extname = path.extname(filepath);
+				var newpath = filepath.replace(new RegExp(extname + '$'), '-' + hash + extname);
 
-				console.log(hash, extname, filepath.replace(new RegExp(extname + '$'), '-' + hash + extname));
-
-				// fs.renameSync(filepath, filepath.replace(extname, hash + extname));
+				console.log('generate new hash file: '+ newpath);
+				fs.renameSync(filepath, newpath);
 			});
 
 		});

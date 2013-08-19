@@ -1,0 +1,23 @@
+{
+	"evil": true,
+	"curly": true,
+	"eqeqeq": true,
+	"immed": true,
+	"latedef": true,
+	"newcap": true,
+	"noarg": true,
+	"sub": true,
+	"undef": true,
+	"unused": "vars",
+	"boss": true,
+	"eqnull": true,
+	"smarttabs": true,
+	"globals": {
+		"jQuery": true,
+		"module": true,
+		"require": true,
+		"JSON": true,
+		"console": true,
+		"setTimeout": true
+	}
+}

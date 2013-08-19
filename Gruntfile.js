@@ -58,7 +58,6 @@ module.exports = function(grunt) {
 			css: {
 				expand: true,
 				cwd: '<%= pkg.config.src_css %>',
-				dest: '<%= pkg.config.dest_css %>',
 				src: ['common/global.css', 'extCssNew.css', 'data-view.css', 'comment.css', 'common/site-nav.css', 'head.css', 
 					'foot.css', 'webim.css', 'support.css', 'jquery/datatables.css', 'jquery/datepicker.css', 'jquery/dialog.css'],
 				dest: '<%= pkg.config.dest_css %>/css-min.css'
@@ -85,7 +84,7 @@ module.exports = function(grunt) {
 					dead_code: true
 				}
 			},
-			js: {
+			files: {
 				// Enable dynamic expansion.
 				expand: true,
 				// Src matches are relative to this path.
@@ -94,16 +93,21 @@ module.exports = function(grunt) {
 				src: '**/*.js',
 				// Destination path prefix.
 				dest: '<%= pkg.config.dest_js %>'
+			}
+		},
+		minifyCSS: {
+			options: {
+				banner: '<%= banner %>'
 			},
-			css: {
+			files: {
 				// Enable dynamic expansion.
 				expand: true,
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_js %>',
+				cwd: '<%= pkg.config.dest_css %>',
 				// match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
 				src: '**/*.js',
 				// Destination path prefix.
-				dest: '<%= pkg.config.dest_js %>'
+				dest: '<%= pkg.config.dest_css %>'
 			}
 		},
 		requirejs: {
@@ -169,6 +173,9 @@ module.exports = function(grunt) {
 		grunt.log.write('Start Time: ' + buildStartTime + '\n' + 'End Time:   ' + buildEndTime + '\n' + 'Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
 	});
 
+	// load custom tasks. 
+	grunt.loadTasks('tasks');
+
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
@@ -180,7 +187,7 @@ module.exports = function(grunt) {
 	// Watching task.
 	grunt.registerTask('watching', ['jshint', 'requirejs', 'logs']); // when watching task run, it will not use uglify task. just auto uglify by expand option.
 	// Build task.
-	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglify', 'logs']);
+	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglify', 'minifyCSS', 'logs']);
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 

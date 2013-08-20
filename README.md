@@ -7,8 +7,8 @@ ablejs
 
 
 ### Installation
-1. ```js  git clone git@github.com:ablesky/ablejs.git ```
-2. ```js  npm install -g ablejs ```
+1. ``` git clone git@github.com:ablesky/ablejs.git ```
+2. ``` npm install -g ablejs ```
 
 ### Usage
 type in command line: 

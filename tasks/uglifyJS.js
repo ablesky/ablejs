@@ -22,7 +22,8 @@ module.exports = function(grunt) {
 			},
 			mangle: {},
 			beautify: false,
-			report: false
+			report: false,
+			fromString: true
 		});
 
 		this.files.forEach(function(element, i, array) {
@@ -36,9 +37,7 @@ module.exports = function(grunt) {
 			});
 
 			var minified = array.map(function(filename) {
-				return require("uglify-js").minify(fs.readFileSync(filename, 'utf8'), {
-					fromString: true
-				});
+				return require("uglify-js").minify(fs.readFileSync(filename, 'utf8'), options).code;
 			}).join('');
 
 			if (minified.length < 1) {

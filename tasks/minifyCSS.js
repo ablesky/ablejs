@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 
 	var path = require('path');
 	var fs = require('fs');
+	var file = require('../lib/utils/file');
 
 	var minifyCSS = function(source, options) {
 		try {
@@ -43,7 +44,7 @@ module.exports = function(grunt) {
 					minified = options.banner + minified;
 				}
 
-				fs.writeFileSync(element.dest, minified, 'utf8');
+				file.write(element.dest, minified, 'utf8');
 				grunt.log.writeln('Compressed CSS File: ' + element.dest);
 			}
 		});

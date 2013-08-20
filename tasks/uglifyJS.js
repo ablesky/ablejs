@@ -12,13 +12,18 @@ module.exports = function(grunt) {
 
 	// Internal libs.
 	var file = require('../lib/utils/file');
-	
+
 	grunt.registerMultiTask('uglifyJS', 'Minify JS files', function() {
 		var options = this.options({
 			banner: '',
 			footer: '',
 			compress: {
-				warnings: false
+				warnings: false,
+				global_defs: {
+					"DEBUG": false
+				},
+				drop_debugger: true,
+				dead_code: true
 			},
 			mangle: {},
 			beautify: false,

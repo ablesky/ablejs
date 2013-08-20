@@ -173,7 +173,9 @@ module.exports = function(grunt) {
 		// Force task into async mode and grab a handle to the "done" function.
 		// var done = this.async();
 		var buildEndTime = new Date();
-		grunt.log.write('Start Time: ' + buildStartTime + '\n' + 'End Time:   ' + buildEndTime + '\n' + 'Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
+		grunt.log.writeln('Start Time: ' + buildStartTime);
+		grunt.log.writeln('End Time:   ' + buildEndTime);
+		grunt.log.writeln('Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
 	});
 
 	// load custom tasks. 

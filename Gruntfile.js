@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 				src: ['Gruntfile.js', '!<%= pkg.config.src_js %>/**/*.js']
 			}
 		},
-		uglify: {
+		uglifyJS: {
 			options: {
 				banner: '<%= banner %>',
 				compress: {
@@ -184,13 +184,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+	// grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Watching task.
 	grunt.registerTask('watching', ['jshint', 'requirejs', 'logs']); // when watching task run, it will not use uglify task. just auto uglify by expand option.
 	// Build task.
-	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglify', 'minifyCSS', 'logs']);
+	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglifyJS', 'minifyCSS', 'logs']);
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 

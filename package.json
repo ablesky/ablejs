@@ -5,26 +5,24 @@
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
-    "src_js": "../asbuild/js",
-    "dest_js": "../asbuild/js_optimize",
-    "src_css": "../asbuild/css",
-    "dest_css": "../asbuild/stylecss_optimize",
-    "src_image": "../asbuild/images",
-    "dest_image": "../asbuild/images"
+    "src_js": "/home/bxu/asbuild/js",
+    "dest_js": "/home/bxu/asbuild/js_optimize",
+    "src_css": "/home/bxu/asbuild/css",
+    "dest_css": "/home/bxu/asbuild/stylecss_optimize",
+    "src_image": "/home/bxu/asbuild/images",
+    "dest_image": "/home/bxu/asbuild/images"
   },
   "dependencies": {
-    "grunt": "~0.4.1"
-  },
-  "devDependencies": {
+    "grunt": "~0.4.1",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.6.3",
     "rimraf": "~2.2.2",
     "mkdirp": "~0.3.5",
-    "grunt": "~0.4.1",
-    "uglify-js": "~2.3.6"
+    "uglify-js": "~2.3.6",
+    "clean-css": "~1.0.12"
   },
   "bin": {
     "ablejs": "./bin/run"

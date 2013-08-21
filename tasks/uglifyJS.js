@@ -1,6 +1,6 @@
 /**
- * A grunt task that minify css files by using node package "clean-css"
- * clean-css: https://github.com/GoalSmashers/clean-css
+ * A grunt task that minify js files by using node package "uglify-js"
+ * UglifyJS: https://npmjs.org/package/uglify-js
  */
 
 module.exports = function(grunt) {
@@ -13,16 +13,23 @@ module.exports = function(grunt) {
 	// Internal libs.
 	var file = require('../lib/utils/file');
 
-	var minifyCSS = function(source, options) {
-		try {
-			return require('clean-css').process(source, options);
-		} catch (e) {
-			grunt.log.error(e);
-		}
-	};
-
-	grunt.registerMultiTask('minifyCSS', 'Minify CSS files', function() {
-		var options = this.options();
+	grunt.registerMultiTask('uglifyJS', 'Minify JS files', function() {
+		var options = this.options({
+			banner: '',
+			footer: '',
+			compress: {
+				warnings: false,
+				global_defs: {
+					"DEBUG": false
+				},
+				drop_debugger: true,
+				dead_code: true
+			},
+			mangle: {},
+			beautify: false,
+			report: false,
+			fromString: true
+		});
 
 		this.files.forEach(function(element, i, array) {
 			array = element.src.filter(function(filepath) {
@@ -35,23 +42,21 @@ module.exports = function(grunt) {
 			});
 
 			var minified = array.map(function(filename) {
-				return minifyCSS(fs.readFileSync(filename, 'utf8'), {
-					relativeTo: path.dirname(filename) //  path with which to resolve relative @import rules
-				});
+				return require("uglify-js").minify(fs.readFileSync(filename, 'utf8'), options).code;
 			}).join('');
 
 			if (minified.length < 1) {
-				grunt.log.warn('Destination not written because minified CSS was empty.');
+				grunt.log.warn('Destination not written because minified JS was empty.');
 			} else {
 				if (options.banner) {
 					minified = options.banner + minified;
 				}
 
 				file.write(element.dest, minified, 'utf8');
-				grunt.log.writeln('Compressed CSS File: ' + element.dest);
+				grunt.log.writeln('Compressed JS File: ' + element.dest);
 			}
 		});
 	});
 
-
 };
+

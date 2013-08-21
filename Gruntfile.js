@@ -6,38 +6,18 @@ module.exports = function(grunt) {
 	// var fs = require('fs');
 	var buildStartTime = new Date();
 	var pkg = grunt.file.readJSON('package.json');
+	var profile = grunt.file.readJSON(pkg.config.src_js + '/profile.json'); // A profile for build content.
 
-	function getRequireJSProfile() {
-		return grunt.file.readJSON(pkg.config.src_js + '/profile.json');
-	}
+	function getConcatCSS() {
+		var files = profile.concatCSS || {};
+		var _ = Object.create(Object.prototype);
 
-	/**
-	 *	get profile for requirejs task, include modules
-	 */
-
-	function getRequireJSModules() {
-
-		var profile = getRequireJSProfile();
-		var _modules = profile.modules; // app modules
-		var _excludes = profile.excludes; // excludes common modules
-		var _targetModules = [];
-
-		// push common modules
-		_excludes.forEach(function(element, i, array) {
-			_targetModules.push({
-				name: element
-			});
+		// pkg.config.dest_css
+		Object.keys(files).forEach(function(ele, i, array) {
+			_[pkg.config.dest_css + '/' + ele] = files[ele];
 		});
-
-		// push app modules
-		_modules.forEach(function(element, i, array) {
-			_targetModules.push({
-				name: element,
-				exclude: _excludes
-			});
-		});
-
-		return _targetModules;
+		
+		return _;
 	}
 
 	// Project configuration.
@@ -61,9 +41,7 @@ module.exports = function(grunt) {
 			css: {
 				expand: true,
 				cwd: '<%= pkg.config.src_css %>',
-				src: ['common/global.css', 'extCssNew.css', 'data-view.css', 'comment.css', 'common/site-nav.css', 'head.css', 
-					'foot.css', 'webim.css', 'support.css', 'jquery/datatables.css', 'jquery/datepicker.css', 'jquery/dialog.css'],
-				dest: '<%= pkg.config.dest_css %>/css-min.css'
+				files: getConcatCSS()
 			}
 		},
 		// http://www.jshint.com/docs/options/
@@ -76,16 +54,9 @@ module.exports = function(grunt) {
 				src: ['Gruntfile.js', '!<%= pkg.config.src_js %>/**/*.js']
 			}
 		},
-		uglify: {
+		uglifyJS: {
 			options: {
-				banner: '<%= banner %>',
-				compress: {
-					global_defs: {
-						"DEBUG": false
-					},
-					drop_debugger: true,
-					dead_code: true
-				}
+				banner: '<%= banner %>'
 			},
 			files: {
 				// Enable dynamic expansion.
@@ -122,7 +93,6 @@ module.exports = function(grunt) {
 					paths: {
 						'jquery': 'empty:'
 					},
-					// packages: ['lib/jquery'],
 					useStrict: true,
 					useSourceUrl: false,
 					optimize: 'none',
@@ -132,26 +102,10 @@ module.exports = function(grunt) {
 					skipDirOptimize: true,
 					optimizeAllPluginResources: false,
 					findNestedDependencies: true,
-					modules: getRequireJSModules(),
+					modules: profile.modules,
 					onBuildRead: function(moduleName, path, contents) {
 						console.log('reading: ' + path);
 
-						var jqPluginsOpt = ['blockui', 'cookie', 'dialog', 'fixedwidth', 'placeholder', 'poshytip', 'scrollto', 'validate'];
-						for (var i = jqPluginsOpt.length - 1; i >= 0; i--) {
-							jqPluginsOpt[i] = 'lib/jquery/jquery.' + jqPluginsOpt[i];
-						}
-
-						if (moduleName === 'lib/jquery/pack') {
-							return contents;
-						}
-
-						// Replace jquery plugin to jquery package
-						return contents.replace(new RegExp('(' + jqPluginsOpt.join('|') + ')', "ig"), 'lib/jquery/pack');
-					},
-					onBuildWrite: function(moduleName, path, contents) {
-						console.log('writing: ' + path);
-
-						// Always return a value.
 						return contents;
 					}
 				}
@@ -173,7 +127,9 @@ module.exports = function(grunt) {
 		// Force task into async mode and grab a handle to the "done" function.
 		// var done = this.async();
 		var buildEndTime = new Date();
-		grunt.log.write('Start Time: ' + buildStartTime + '\n' + 'End Time:   ' + buildEndTime + '\n' + 'Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
+		grunt.log.writeln('Start Time: ' + buildStartTime);
+		grunt.log.writeln('End Time:   ' + buildEndTime);
+		grunt.log.writeln('Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
 	});
 
 	// load custom tasks. 
@@ -184,13 +140,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+	// grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Watching task.
 	grunt.registerTask('watching', ['jshint', 'requirejs', 'logs']); // when watching task run, it will not use uglify task. just auto uglify by expand option.
 	// Build task.
-	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglify', 'minifyCSS', 'logs']);
+	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglifyJS', 'minifyCSS', 'logs']);
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 

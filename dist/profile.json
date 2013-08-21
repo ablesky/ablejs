@@ -1,9 +1,21 @@
 {
-    "modules": [
-        "index/index-init",
-        "index/login-init"
-    ],
-    "excludes": [
-        "common/global"
-    ]
+	"modules": [{
+		"name": "common/global",
+		"include": ["jquery", "lib/jquery/jquery.blockui", "lib/jquery/jquery.cookie",
+			"lib/jquery/jquery.dialog", "lib/jquery/jquery.fixedwidth", "lib/jquery/jquery.placeholder",
+			"lib/jquery/jquery.poshytip", "lib/jquery/jquery.scrollto", "lib/jquery/jquery.validate"
+		]
+	}, {
+		"name": "index/index-init",
+		"exclude": ["common/global"]
+	}, {
+		"name": "index/login-init",
+		"exclude": ["common/global"]
+	}],
+	"concatCSS": {
+		"css-min.css": ["common/global.css", "extCssNew.css", "data-view.css", "comment.css", "common/site-nav.css",
+			"head.css", "foot.css", "webim.css", "support.css", "jquery/datatables.css", "jquery/dialog.css"
+		],
+		"common/global-min.css": ["common/reset.css", "common/global.css", "site-nav.css", "webim.css", "jquery/dialog.css", "support.css"]
+	}
 }

@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 
 	// var fs = require('fs');
 	var buildStartTime = new Date();
+	var path = require('path');
 	var pkg = grunt.file.readJSON('package.json');
 	var profile = grunt.file.readJSON(pkg.config.src_js + '/profile.json'); // A profile for build content.
 
@@ -14,9 +15,11 @@ module.exports = function(grunt) {
 
 		// pkg.config.dest_css
 		Object.keys(files).forEach(function(ele, i, array) {
-			_[pkg.config.dest_css + '/' + ele] = files[ele];
+			_[path.join(pkg.config.dest_css, ele)] = files[ele].map(function(filename) {
+				return path.join(pkg.config.src_css, filename);
+			});
 		});
-		
+
 		return _;
 	}
 
@@ -140,14 +143,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	// grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Watching task.
 	grunt.registerTask('watching', ['jshint', 'requirejs', 'logs']); // when watching task run, it will not use uglify task. just auto uglify by expand option.
 	// Build task.
-	grunt.registerTask('build', ['jshint', 'clean', 'requirejs', 'uglifyJS', 'minifyCSS', 'logs']);
+	grunt.registerTask('build', ['jshint', 'clean', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'logs']);
+
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 
 };
+

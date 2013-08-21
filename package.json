@@ -30,7 +30,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "bxu@ablesky.com",
+  "author": {
+    "name": "bxu@ablesky.com"
+  },
   "license": "BSD",
   "repository": {
     "type": "git",
@@ -41,5 +43,12 @@
   },
   "keywords": [
     "ablesky"
-  ]
+  ],
+  "readme": "ablejs\n=============\n[aslink]: http://www.ablesky.com\n>The statics build tools for [ablesky](aslink)\n\n<img align=\"right\" src=\"http://stat.ablesky.com/stata/images/market/index/index-new-logo.png\" />\n\n\n### Installation\n1. ``` git clone git@github.com:ablesky/ablejs.git ```\n2. ``` npm install -g ablejs ```\n\n### Usage\ntype in command line: \n\n    ablejs\n\nbuild project in command line:, by typing \n    \n    ablejs build \n\n\n### Release History\nSee the [CHANGELOG](CHANGELOG).\n\n",
+  "readmeFilename": "README.md",
+  "_id": "ablejs@0.1.1",
+  "dist": {
+    "shasum": "f54e2ac44879c405f3c9c329bf9121556386d30b"
+  },
+  "_from": "ablejs/"
 }

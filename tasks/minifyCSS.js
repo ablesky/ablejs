@@ -6,11 +6,11 @@
 module.exports = function(grunt) {
 	'use strict';
 
-	// External libs.
+	// node libs.
 	var path = require('path');
 	var fs = require('fs');
 
-	// Internal libs.
+	// internal libs.
 	var file = require('../lib/utils/file');
 
 	var minifyCSS = function(source, options) {

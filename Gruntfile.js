@@ -7,16 +7,17 @@ module.exports = function(grunt) {
 	var buildStartTime = new Date();
 	var path = require('path');
 	var pkg = grunt.file.readJSON('package.json');
-	var profile = grunt.file.readJSON(pkg.config.src_js + '/profile.json'); // A profile for build content.
+	var profile = grunt.file.readJSON(path.join(pkg.config.src_js, 'profile.json')); // A profile for build content.
 
-	function getConcatCSS() {
-		var files = profile.concatCSS || {};
+	function getConcatFiles(fileType) {
+		var files = (fileType === 'js' ? profile.concatJS : profile.concatCSS) || {};
+		var srcPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
+		var destPath = fileType === 'js' ? pkg.config.dest_js : pkg.config.dest_css;
 		var _ = Object.create(Object.prototype);
 
-		// pkg.config.dest_css
 		Object.keys(files).forEach(function(ele, i, array) {
-			_[path.join(pkg.config.dest_css, ele)] = files[ele].map(function(filename) {
-				return path.join(pkg.config.src_css, filename);
+			_[path.join(destPath, ele)] = files[ele].map(function(filename) {
+				return path.join(srcPath, filename);
 			});
 		});
 
@@ -40,16 +41,18 @@ module.exports = function(grunt) {
 		concat: {
 			options: {
 				banner: '<%= banner %>'
+				// ,expand: true
 			},
 			css: {
-				expand: true,
-				cwd: '<%= pkg.config.src_css %>',
-				files: getConcatCSS()
+				files: getConcatFiles('css')
+			},
+			js: {
+				files: getConcatFiles('js')
 			}
 		},
-		// http://www.jshint.com/docs/options/
 		jshint: {
 			options: {
+				// http://www.jshint.com/docs/options/
 				jshintrc: '.jshintrc'
 			},
 			gruntfile: {
@@ -114,6 +117,11 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		shell: {
+			target: {
+				command: 'echo Good Job!'
+			}
+		},
 		watch: {
 			options: {
 				interrupt: true,
@@ -121,7 +129,7 @@ module.exports = function(grunt) {
 			},
 			src: {
 				files: '<%= pkg.config.src_js %>/**/*.js',
-				tasks: ['watching']
+				tasks: ['patch']
 			}
 		}
 	});
@@ -145,13 +153,17 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	// Watching task.
-	grunt.registerTask('watching', ['jshint', 'requirejs', 'logs']); // when watching task run, it will not use uglify task. just auto uglify by expand option.
-	// Build task.
-	grunt.registerTask('build', ['jshint', 'clean', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'logs']);
+	// on watch events configure task to only run on changed file
+	grunt.event.on('watch', function(action, filepath) {
+		grunt.config(['uglifyJS'], filepath);
+	});
 
+
+	// Patch task.
+	grunt.registerTask('patch', ['jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
+	// Build task.
+	grunt.registerTask('build', ['clean', 'jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 
 };
-

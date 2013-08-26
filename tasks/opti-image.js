@@ -1,5 +1,5 @@
 /**
- * A grunt task that optimize image files by using node package 
+ * A grunt task that optimize image files by using node package
  * jpegtran-bin: https://github.com/yeoman/node-jpegtran-bin
  * optipng-bin: https://github.com/yeoman/node-optipng-bin
  */
@@ -14,46 +14,64 @@ module.exports = function(grunt) {
 	// internal libs.
 	var file = require('../lib/utils/file');
 
-	var minifyCSS = function(source, options) {
-		try {
-			return require('clean-css').process(source, options);
-		} catch (e) {
-			grunt.log.error(e);
-		}
-	};
+	var execFile = require('child_process').execFile;
+	var optipngPath = require('optipng-bin').path;
+	var jpgtranPath = require('jpegtran-bin').path;
 
-	grunt.registerMultiTask('minifyCSS', 'Minify CSS files', function() {
+
+	grunt.registerMultiTask('optiIMG', 'Optimize images', function() {
+
 		var options = this.options();
+		var cwd = this.data.cwd;
+		var dest = this.data.dest;
 
-		this.files.forEach(function(element, i, array) {
-			array = element.src.filter(function(filepath) {
-				if (!grunt.file.exists(filepath)) {
-					grunt.log.warn('Source file "' + filepath + '" not found.');
-					return false;
-				} else {
-					return true;
-				}
+		var argv = [];
+		var pngFiles = [];
+		var jpgFiles = []; // include jpg & jpeg.
+
+
+		// this.files.forEach(function(element, i, array) {
+
+		// 	element.src.forEach(function(filepath) {
+		// 		filepath = path.join(cwd + '/' + filepath);
+
+		// 		if (!grunt.file.exists(filepath)) {
+		// 			grunt.log.warn('Source file "' + filepath + '" not found.');
+		// 			return false;
+		// 		} else {
+		// 			grunt.log.writeln('Found file "' + filepath + '".');
+		// 		}
+
+		// 		switch (path.extname(filepath)) {
+		// 			case 'png':
+		// 				pngFiles.push(filepath);
+		// 				break;
+		// 			case 'gif':
+		// 				pngFiles.push(filepath);
+		// 				break;
+		// 			case 'jpg':
+		// 				jpgFiles.push(filepath);
+		// 				break;
+		// 			case 'jpeg':
+		// 				jpgFiles.push(filepath);
+		// 				break;
+		// 		}
+
+		// 		// minifyCSS(fs.readFileSync(filename, 'utf8'), {
+		// 		// 	relativeTo: path.dirname(filename) //  path with which to resolve relative @import rules
+		// 		// });
+		// 	});
+
+		// });
+
+		try {
+			require('child_process').execFile('/usr/local/bin/npm', ['-v'], function(err, stdout, stderr) {
+				console.log(err, stdout, stderr);
+				console.log('OptiPNG version:', stdout.match(/\d\.\d\.\d/)[0]);
 			});
+		} catch (e) {}
 
-			var minified = array.map(function(filename) {
-				return minifyCSS(fs.readFileSync(filename, 'utf8'), {
-					relativeTo: path.dirname(filename) //  path with which to resolve relative @import rules
-				});
-			}).join('');
 
-			if (minified.length < 1) {
-				grunt.log.warn('Destination not written because minified CSS was empty.');
-			} else {
-				if (options.banner) {
-					minified = options.banner + minified;
-				}
-
-				file.write(element.dest, minified, 'utf8');
-				grunt.log.writeln('Compressed CSS File: ' + element.dest);
-			}
-		});
 	});
 
-
 };
-

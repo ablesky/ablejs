@@ -9,8 +9,8 @@
     "dest_js": "/home/bxu/asbuild/js_optimize",
     "src_css": "/home/bxu/asbuild/css",
     "dest_css": "/home/bxu/asbuild/stylecss_optimize",
-    "src_image": "/home/bxu/asbuild/images",
-    "dest_image": "/home/bxu/asbuild/images"
+    "src_img": "/home/bxu/asbuild/images",
+    "dest_img": "/home/bxu/asbuild/images"
   },
   "dependencies": {
     "grunt": "~0.4.1",

@@ -38,10 +38,19 @@ module.exports = function(grunt) {
 				src: ['<%= pkg.config.dest_js %>', '<%= pkg.config.dest_css %>']
 			}
 		},
+		optiIMG: {
+			files: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.src_img %>',
+				// match all files ending with png/jpe?g in the ${cwd}/ subdirectory and all of its subdirectories.
+				src: ['**/*.png', '**/*.jpg', '**/*.jpeg'],
+				// Destination path prefix.
+				dest: '<%= pkg.config.dest_img %>'
+			}
+		},
 		concat: {
 			options: {
 				banner: '<%= banner %>'
-				// ,expand: true
 			},
 			css: {
 				files: getConcatFiles('css')

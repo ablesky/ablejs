@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 	var minifyCSS = function(source, options) {
 		try {
 			return require('clean-css').process(source, options);
-		} catch (e) {
+		} catch(e) {
 			grunt.log.error(e);
 		}
 	};
@@ -53,5 +53,5 @@ module.exports = function(grunt) {
 		});
 	});
 
-
 };
+

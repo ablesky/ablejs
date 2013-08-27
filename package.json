@@ -10,7 +10,7 @@
     "src_css": "/home/bxu/asbuild/css",
     "dest_css": "/home/bxu/asbuild/stylecss_optimize",
     "src_img": "/home/bxu/asbuild/images",
-    "dest_img": "/home/bxu/asbuild/images"
+    "dest_img": "/home/bxu/asbuild/images_optimize"
   },
   "dependencies": {
     "grunt": "~0.4.1",

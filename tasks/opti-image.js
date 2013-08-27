@@ -10,66 +10,86 @@ module.exports = function(grunt) {
 	// node libs.
 	var path = require('path');
 	var fs = require('fs');
-
-	// internal libs.
-	var file = require('../lib/utils/file');
-
 	var execFile = require('child_process').execFile;
-	var optipngPath = require('optipng-bin').path;
-	var jpgtranPath = require('jpegtran-bin').path;
+
+	// External libs.
+	var pngOptiPath = require('optipng-bin').path;
+	var jpgTranPath = require('jpegtran-bin').path;
 
 
 	grunt.registerMultiTask('optiIMG', 'Optimize images', function() {
 
+		// Force task into async mode and grab a handle to the "done" function.
+		var done = this.async();
 		var options = this.options();
 		var cwd = this.data.cwd;
 		var dest = this.data.dest;
 
-		var argv = [];
-		var pngFiles = [];
-		var jpgFiles = []; // include jpg & jpeg.
+		function optimizeImg(binPath, filePath, options, callback) {
+			options = options || {};
 
+			var level = options.level || 2;
+			var optFile = path.join(cwd + '/' + filePath);
+			var outFile = path.join(dest + '/' + filePath);
+			var optFileSize = fs.statSync(optFile).size;
 
-		// this.files.forEach(function(element, i, array) {
+			grunt.log.writeln('Optimize image: "' + optFile + '".');
 
-		// 	element.src.forEach(function(filepath) {
-		// 		filepath = path.join(cwd + '/' + filepath);
+			execFile(binPath, ['-o' + level, '-out', outFile, optFile], function(err, stdout, stderr) {
+				var outFileSize = 10 || fs.statSync(outFile).size;
+				var saved = optFileSize - outFileSize;
 
-		// 		if (!grunt.file.exists(filepath)) {
-		// 			grunt.log.warn('Source file "' + filepath + '" not found.');
-		// 			return false;
-		// 		} else {
-		// 			grunt.log.writeln('Found file "' + filepath + '".');
-		// 		}
-
-		// 		switch (path.extname(filepath)) {
-		// 			case 'png':
-		// 				pngFiles.push(filepath);
-		// 				break;
-		// 			case 'gif':
-		// 				pngFiles.push(filepath);
-		// 				break;
-		// 			case 'jpg':
-		// 				jpgFiles.push(filepath);
-		// 				break;
-		// 			case 'jpeg':
-		// 				jpgFiles.push(filepath);
-		// 				break;
-		// 		}
-
-		// 		// minifyCSS(fs.readFileSync(filename, 'utf8'), {
-		// 		// 	relativeTo: path.dirname(filename) //  path with which to resolve relative @import rules
-		// 		// });
-		// 	});
-
-		// });
-
-		try {
-			require('child_process').execFile('/usr/local/bin/npm', ['-v'], function(err, stdout, stderr) {
-				console.log(err, stdout, stderr);
-				console.log('OptiPNG version:', stdout.match(/\d\.\d\.\d/)[0]);
+				grunt.log.writeln('original size: ' + optFileSize / 1000 + 'kb. ' +
+					'optimize size: ' + outFileSize / 1000 + 'kb. saved: ' + saved / 1000 + 'kb.');
+				callback();
 			});
-		} catch (e) {}
+		}
+
+
+		this.files.forEach(function(element, i, array) {
+
+			var source = element.src;
+			var binPath = '';
+
+			function recursiveSource() {
+				var fileRelPath = source.shift();
+				var filePath = path.join(cwd + '/' + fileRelPath);
+
+				if (!grunt.file.exists(filePath)) {
+					if (fileRelPath !== undefined) {
+						grunt.log.warn('Source file "' + filePath + '" not found.');
+					}
+
+					done();
+					return;
+				}
+
+				switch (path.extname(filePath).slice(1)) {
+					case 'png':
+						binPath = pngOptiPath;
+						break;
+					case 'gif':
+						binPath = pngOptiPath;
+						break;
+					case 'jpg':
+						binPath = jpgTranPath;
+						break;
+					case 'jpeg':
+						binPath = jpgTranPath;
+						break;
+				}
+
+
+				optimizeImg(binPath, fileRelPath, {
+					level: 2
+				}, recursiveSource);
+
+			}
+
+			recursiveSource();
+
+		});
+
 
 
 	});

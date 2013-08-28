@@ -10,67 +10,99 @@ module.exports = function(grunt) {
 	// node libs.
 	var path = require('path');
 	var fs = require('fs');
-
-	// internal libs.
-	var file = require('../lib/utils/file');
-
 	var execFile = require('child_process').execFile;
-	var optipngPath = require('optipng-bin').path;
-	var jpgtranPath = require('jpegtran-bin').path;
+
+	// External libs.
+	var pngOptiPath = require('optipng-bin').path;
+	var jpgTranPath = require('jpegtran-bin').path;
+
+	// Internal libs.
+	var file = require('../lib/utils/file');
 
 
 	grunt.registerMultiTask('optiIMG', 'Optimize images', function() {
 
-		var options = this.options();
-		var cwd = this.data.cwd;
-		var dest = this.data.dest;
+		// Force task into async mode and grab a handle to the "done" function.
+		var done = this.async();
+		var cwdbase = this.data.cwd;
+		var destbase = this.data.dest;
 
-		var argv = [];
-		var pngFiles = [];
-		var jpgFiles = []; // include jpg & jpeg.
+		this.files.forEach(function(element, i, array) {
 
+			var sources = element.src;
+			var binPath = '';
+			var options = [];
 
-		// this.files.forEach(function(element, i, array) {
+			function recursiveSource() {
+				var fileRelPath = sources.shift();
+				var sourceFile = path.join(cwdbase + '/' + fileRelPath);
+				var resultFile = path.join(destbase + '/' + fileRelPath);
+				var sourceType = path.extname(sourceFile).slice(1);
 
-		// 	element.src.forEach(function(filepath) {
-		// 		filepath = path.join(cwd + '/' + filepath);
+				if (!fs.existsSync(sourceFile)) {
+					if (fileRelPath !== undefined) {
+						grunt.log.writeln(('Source file "' + sourceFile + '" not found.').red + ' \n');
+					} else {
+						done();
+					}
 
-		// 		if (!grunt.file.exists(filepath)) {
-		// 			grunt.log.warn('Source file "' + filepath + '" not found.');
-		// 			return false;
-		// 		} else {
-		// 			grunt.log.writeln('Found file "' + filepath + '".');
-		// 		}
+					return;
+				} else {
+					grunt.log.writeln('source image: ' + sourceFile.yellow);
+					grunt.log.writeln('result image: ' + resultFile.yellow);
+				}
 
-		// 		switch (path.extname(filepath)) {
-		// 			case 'png':
-		// 				pngFiles.push(filepath);
-		// 				break;
-		// 			case 'gif':
-		// 				pngFiles.push(filepath);
-		// 				break;
-		// 			case 'jpg':
-		// 				jpgFiles.push(filepath);
-		// 				break;
-		// 			case 'jpeg':
-		// 				jpgFiles.push(filepath);
-		// 				break;
-		// 		}
+				if (fs.existsSync(resultFile) && (sourceType === 'png' || sourceType === 'gif')) {
+					file.delete(resultFile);
+				} else {
+					file.mkdir(path.dirname(resultFile));
+				}
 
-		// 		// minifyCSS(fs.readFileSync(filename, 'utf8'), {
-		// 		// 	relativeTo: path.dirname(filename) //  path with which to resolve relative @import rules
-		// 		// });
-		// 	});
+				switch (sourceType) {
+					case 'gif':
+					case 'png':
+						binPath = pngOptiPath;
+						options = ['-force', '-strip', 'all', '-o', 2, '-out', resultFile, sourceFile];
+						break;
+					case 'jpg':
+					case 'jpeg':
+						binPath = jpgTranPath;
+						options = ['-copy', 'none', '-optimize', '-outfile', resultFile, sourceFile];
+						break;
+					default:
+						grunt.file.copy(sourceFile, resultFile);
+						grunt.log.writeln('Just copy source file: "' + sourceFile + '".');
 
-		// });
+						return recursiveSource();
+				}
 
-		try {
-			require('child_process').execFile('/usr/local/bin/npm', ['-v'], function(err, stdout, stderr) {
-				console.log(err, stdout, stderr);
-				console.log('OptiPNG version:', stdout.match(/\d\.\d\.\d/)[0]);
+				optimizeImg(binPath, sourceFile, resultFile, options, recursiveSource);
+			}
+
+			recursiveSource();
+
+		});
+
+		function optimizeImg(binPath, sourceFile, resultFile, options, callback) {
+			execFile(binPath, options, function(err, stdout, stderr) {
+				if (!fs.existsSync(resultFile)) {
+					grunt.file.copy(sourceFile, resultFile);
+					grunt.log.writeln('Just copy source file. Optimize fail!'.red + ' \n');
+
+					callback();
+					return;
+				}
+
+				var optFileSize = fs.statSync(sourceFile).size;
+				var outFileSize = fs.statSync(resultFile).size;
+				var saved = optFileSize - outFileSize;
+
+				grunt.log.writeln('source size: ' + (optFileSize / 1000 + 'kb').cyan +
+					'. result size: ' + (outFileSize / 1000 + 'kb').cyan + '.  saving: ' + (saved / 1000 + 'kb').cyan + ' . \n');
+
+				callback();
 			});
-		} catch (e) {}
-
+		}
 
 	});
 

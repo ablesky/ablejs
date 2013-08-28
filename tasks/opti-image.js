@@ -16,81 +16,93 @@ module.exports = function(grunt) {
 	var pngOptiPath = require('optipng-bin').path;
 	var jpgTranPath = require('jpegtran-bin').path;
 
+	// Internal libs.
+	var file = require('../lib/utils/file');
+
 
 	grunt.registerMultiTask('optiIMG', 'Optimize images', function() {
 
 		// Force task into async mode and grab a handle to the "done" function.
 		var done = this.async();
-		var options = this.options();
-		var cwd = this.data.cwd;
-		var dest = this.data.dest;
-
-		function optimizeImg(binPath, filePath, options, callback) {
-			options = options || {};
-
-			var level = options.level || 2;
-			var optFile = path.join(cwd + '/' + filePath);
-			var outFile = path.join(dest + '/' + filePath);
-			var optFileSize = fs.statSync(optFile).size;
-
-			grunt.log.writeln('Optimize image: "' + optFile + '".');
-
-			execFile(binPath, ['-o' + level, '-out', outFile, optFile], function(err, stdout, stderr) {
-				var outFileSize = 10 || fs.statSync(outFile).size;
-				var saved = optFileSize - outFileSize;
-
-				grunt.log.writeln('original size: ' + optFileSize / 1000 + 'kb. ' +
-					'optimize size: ' + outFileSize / 1000 + 'kb. saved: ' + saved / 1000 + 'kb.');
-				callback();
-			});
-		}
-
+		var cwdbase = this.data.cwd;
+		var destbase = this.data.dest;
 
 		this.files.forEach(function(element, i, array) {
 
-			var source = element.src;
+			var sources = element.src;
 			var binPath = '';
+			var options = [];
 
 			function recursiveSource() {
-				var fileRelPath = source.shift();
-				var filePath = path.join(cwd + '/' + fileRelPath);
+				var fileRelPath = sources.shift();
+				var sourceFile = path.join(cwdbase + '/' + fileRelPath);
+				var resultFile = path.join(destbase + '/' + fileRelPath);
+				var sourceType = path.extname(sourceFile).slice(1);
 
-				if (!grunt.file.exists(filePath)) {
+				if (!fs.existsSync(sourceFile)) {
 					if (fileRelPath !== undefined) {
-						grunt.log.warn('Source file "' + filePath + '" not found.');
+						grunt.log.writeln(('Source file "' + sourceFile + '" not found.').red + ' \n');
+					} else {
+						done();
 					}
 
-					done();
 					return;
+				} else {
+					grunt.log.writeln('source image: ' + sourceFile.yellow);
+					grunt.log.writeln('result image: ' + resultFile.yellow);
 				}
 
-				switch (path.extname(filePath).slice(1)) {
+				if (fs.existsSync(resultFile) && (sourceType === 'png' || sourceType === 'gif')) {
+					file.delete(resultFile);
+				} else {
+					file.mkdir(path.dirname(resultFile));
+				}
+
+				switch (sourceType) {
+					case 'gif':
 					case 'png':
 						binPath = pngOptiPath;
-						break;
-					case 'gif':
-						binPath = pngOptiPath;
+						options = ['-force', '-strip', 'all', '-o', 2, '-out', resultFile, sourceFile];
 						break;
 					case 'jpg':
-						binPath = jpgTranPath;
-						break;
 					case 'jpeg':
 						binPath = jpgTranPath;
+						options = ['-copy', 'none', '-optimize', '-outfile', resultFile, sourceFile];
 						break;
+					default:
+						grunt.file.copy(sourceFile, resultFile);
+						grunt.log.writeln('Just copy source file: "' + sourceFile + '".');
+
+						return recursiveSource();
 				}
 
-
-				optimizeImg(binPath, fileRelPath, {
-					level: 2
-				}, recursiveSource);
-
+				optimizeImg(binPath, sourceFile, resultFile, options, recursiveSource);
 			}
 
 			recursiveSource();
 
 		});
 
+		function optimizeImg(binPath, sourceFile, resultFile, options, callback) {
+			execFile(binPath, options, function(err, stdout, stderr) {
+				if (!fs.existsSync(resultFile)) {
+					grunt.file.copy(sourceFile, resultFile);
+					grunt.log.writeln('Just copy source file. Optimize fail!'.red + ' \n');
 
+					callback();
+					return;
+				}
+
+				var optFileSize = fs.statSync(sourceFile).size;
+				var outFileSize = fs.statSync(resultFile).size;
+				var saved = optFileSize - outFileSize;
+
+				grunt.log.writeln('source size: ' + (optFileSize / 1000 + 'kb').cyan +
+					'. result size: ' + (outFileSize / 1000 + 'kb').cyan + '.  saving: ' + (saved / 1000 + 'kb').cyan + ' . \n');
+
+				callback();
+			});
+		}
 
 	});
 

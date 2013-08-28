@@ -42,8 +42,8 @@ module.exports = function(grunt) {
 			files: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.src_img %>',
-				// match all files ending with png/jpe?g in the ${cwd}/ subdirectory and all of its subdirectories.
-				src: ['**/*.png', '**/*.jpg', '**/*.jpeg'],
+				// match all files in the ${cwd}/ subdirectory and all of its subdirectories.
+				src: ['**/*'],
 				// Destination path prefix.
 				dest: '<%= pkg.config.dest_img %>'
 			}
@@ -133,8 +133,13 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			options: {
-				interrupt: true,
-				interval: 5007 // 5007 is the old node polling default
+				interrupt: true
+				// ,
+				// interval: 5007 // 5007 is the old node polling default
+			},
+			images: {
+				files: ['<%= pkg.config.src_img %>/**/*'],
+				tasks: ['watchingImg']
 			},
 			src: {
 				files: '<%= pkg.config.src_js %>/**/*.js',
@@ -143,10 +148,22 @@ module.exports = function(grunt) {
 		}
 	});
 
+	var changedImgs = [];
+	// on watch events configure task to only run on changed file.
+	grunt.event.on('watch', function(action, filepath) {
+		console.log(filepath);
+		changedImgs.push(filepath)
+	});
+
+	grunt.registerTask('watchingImg', '', function() {
+		grunt.config(['optiIMG', 'files', 'src'], changedImgs);
+		grunt.task.run(['optiIMG']);
+	});
+
+
 	grunt.registerTask('logs', 'A custom task that logs stuff.', function() {
-		// Force task into async mode and grab a handle to the "done" function.
-		// var done = this.async();
 		var buildEndTime = new Date();
+
 		grunt.log.writeln('Start Time: ' + buildStartTime);
 		grunt.log.writeln('End Time:   ' + buildEndTime);
 		grunt.log.writeln('Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
@@ -157,21 +174,15 @@ module.exports = function(grunt) {
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-
-	// on watch events configure task to only run on changed file
-	grunt.event.on('watch', function(action, filepath) {
-		grunt.config(['uglifyJS'], filepath);
-	});
-
 
 	// Patch task.
 	grunt.registerTask('patch', ['jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
 	// Build task.
-	grunt.registerTask('build', ['clean', 'jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
+	grunt.registerTask('build', ['clean', 'optiIMG', 'jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 

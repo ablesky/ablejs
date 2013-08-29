@@ -8,11 +8,10 @@ module.exports = function(grunt) {
 	var path = require('path');
 	var pkg = grunt.file.readJSON('package.json');
 	var profile = grunt.file.readJSON(path.join(pkg.config.src_js, 'profile.json')); // A profile for build content.
-
 	function getConcatFiles(fileType) {
-		var files = (fileType === 'js' ? profile.concatJS : profile.concatCSS) || {};
-		var srcPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
-		var destPath = fileType === 'js' ? pkg.config.dest_js : pkg.config.dest_css;
+		var files = (fileType === 'js' ? profile.concatJS: profile.concatCSS) || {};
+		var srcPath = fileType === 'js' ? pkg.config.src_js: pkg.config.src_css;
+		var destPath = fileType === 'js' ? pkg.config.dest_js: pkg.config.dest_css;
 		var _ = Object.create(Object.prototype);
 
 		Object.keys(files).forEach(function(ele, i, array) {
@@ -36,6 +35,12 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: ['<%= pkg.config.dest_js %>', '<%= pkg.config.dest_css %>']
+			}
+		},
+		crc32: {
+			files: {
+				src: ['<%= pkg.config.src_img %>/**/*'],
+				filter: 'isFile'
 			}
 		},
 		optiIMG: {
@@ -160,7 +165,6 @@ module.exports = function(grunt) {
 		grunt.task.run(['optiIMG']);
 	});
 
-
 	grunt.registerTask('logs', 'A custom task that logs stuff.', function() {
 		var buildEndTime = new Date();
 
@@ -187,3 +191,4 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['build', 'watch']);
 
 };
+

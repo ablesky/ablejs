@@ -13,11 +13,19 @@ module.exports = function(grunt) {
 	// external libs.
 	var crc32 = require('buffer-crc32');
 
+	var crypto = require('crypto');
+	var ciphers = crypto.getCiphers();
+	var hashes = crypto.getHashes();
+	console.log(hashes);
+	// console.log(require('../../asbuild/js/common/global').children);
+
+	var hashTypes = ['js', 'css', 'png', 'jpg', 'jpeg', 'gif', 'ico'];
+
 	grunt.registerMultiTask('crc32', 'generates file hashes', function() {
 		// Force task into async mode and grab a handle to the "done" function.
 		var done = this.async();
 
-		function getFileHash(filepath) {
+		function getCRC32Hash(filepath) {
 			var buf = fs.readFileSync(filepath);
 
 			return crc32.unsigned(buf).toString(16);
@@ -29,12 +37,12 @@ module.exports = function(grunt) {
 					return grunt.log.warn('Source file "' + filepath + '" not found.');
 				}
 
-				var hash = getFileHash(filepath);
+				var hash = getCRC32Hash(filepath);
 				var extname = path.extname(filepath);
 				var newpath = filepath.replace(new RegExp(extname + '$'), '-' + hash + extname);
 
-				console.log('generate new hash file: '+ newpath);
-				fs.renameSync(filepath, newpath);
+				// console.log('generate new hash file: ' + newpath);
+				// fs.renameSync(filepath, newpath);
 			});
 
 		});
@@ -43,4 +51,3 @@ module.exports = function(grunt) {
 	});
 
 };
-

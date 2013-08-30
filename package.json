@@ -5,12 +5,12 @@
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
-    "src_js": "/home/gemstone/Desktop/ableskystatics/asbuild/js",
-    "dest_js": "/home/gemstone/Desktop/ableskystatics/asbuild/js_optimize",
-    "src_css": "/home/gemstone/Desktop/ableskystatics/asbuild/css",
-    "dest_css": "/home/gemstone/Desktop/ableskystatics/asbuild/stylecss_optimize",
-    "src_img": "/home/gemstone/Desktop/ableskystatics/asbuild/images",
-    "dest_img": "/home/gemstone/Desktop/ableskystatics/asbuild/images_optimize"
+    "src_js": "/home/bxu/asbuild/js",
+    "dest_js": "/home/bxu/asbuild/js_optimize",
+    "src_css": "/home/bxu/asbuild/css",
+    "dest_css": "/home/bxu/asbuild/stylecss_optimize",
+    "src_img": "/home/bxu/asbuild/images",
+    "dest_img": "/home/bxu/asbuild/images_optimize"
   },
   "dependencies": {
     "grunt": "~0.4.1",
@@ -35,7 +35,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
-    "name": "gemstone/Desktop/ableskystatics@ablesky.com"
+    "name": "bxu@ablesky.com"
   },
   "license": "BSD",
   "repository": {

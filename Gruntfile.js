@@ -39,24 +39,24 @@ module.exports = function(grunt) {
 			}
 		},
 		crc32: {
-			js: {
-				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_js %>',
-				src: ['**/*'],
-				filter: 'isFile'
-			},
+			// js: {
+			// 	// Src matches are relative to this path.
+			// 	cwd: '<%= pkg.config.dest_js %>',
+			// 	src: ['**/*'],
+			// 	filter: 'isFile'
+			// },
 			css: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_css %>',
 				src: ['**/*'],
 				filter: 'isFile'
-			},
-			img: {
-				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_img %>',
-				src: ['**/*'],
-				filter: 'isFile'
-			}
+			}//,
+			// img: {
+			// 	// Src matches are relative to this path.
+			// 	cwd: '<%= pkg.config.dest_img %>',
+			// 	src: ['**/*'],
+			// 	filter: 'isFile'
+			// }
 		},
 		hashmap: {
 			js: {

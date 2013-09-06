@@ -33,10 +33,11 @@ module.exports = function(grunt) {
 		// Task configuration.
 		clean: {
 			options: {
+                // overrides this task from blocking deletion of folders outside current working dir (CWD)
 				force: true
 			},
 			dist: {
-				src: ['<%= pkg.config.dest_js %>', '<%= pkg.config.dest_css %>']
+				src: ['<%= pkg.config.dest_js %>', '<%= pkg.config.dest_css %>', '<%= pkg.config.dest_img %>', '<%= pkg.config.dest_jsp %>']
 			}
 		},
 		crc32: {
@@ -92,9 +93,9 @@ module.exports = function(grunt) {
 				// http://www.jshint.com/docs/options/
 				jshintrc: '.jshintrc'
 			},
-			gruntfile: {
-				expand: true,
-				src: ['Gruntfile.js', '!<%= pkg.config.src_js %>/**/*.js']
+			ablejs: {
+				// expand: true,
+				src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
 			}
 		},
 		uglifyJS: {
@@ -191,7 +192,7 @@ module.exports = function(grunt) {
 	// on watch events configure task to only run on changed file.
 	grunt.event.on('watch', function(action, filepath) {
 		console.log(filepath);
-		changedImgs.push(filepath)
+		changedImgs.push(filepath);
 	});
 
 	grunt.registerTask('watchingImg', '', function() {
@@ -218,9 +219,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Patch task.
-	grunt.registerTask('patch', ['jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
+	grunt.registerTask('patch', ['concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
 	// Build task.
-	grunt.registerTask('build', ['clean', 'optiIMG', 'jshint', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
+	grunt.registerTask('build', ['clean', 'optiIMG', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
 	// Default task.
 	grunt.registerTask('default', ['build', 'watch']);
 

@@ -7,11 +7,13 @@ module.exports = function(grunt) {
 	var buildStartTime = new Date();
 	var path = require('path');
 	var pkg = grunt.file.readJSON('package.json');
-	var profile = grunt.file.readJSON(path.join(pkg.config.src_js, 'profile.json')); // A profile for build content.
+	// path.join(pkg.config.src_js, 'profile.json')
+	var profile = grunt.file.readJSON('dist/profile.json'); // A profile for build content.
+
 	function getConcatFiles(fileType) {
-		var files = (fileType === 'js' ? profile.concatJS: profile.concatCSS) || {};
-		var srcPath = fileType === 'js' ? pkg.config.src_js: pkg.config.src_css;
-		var destPath = fileType === 'js' ? pkg.config.dest_js: pkg.config.dest_css;
+		var files = (fileType === 'js' ? profile.concatJS : profile.concatCSS) || {};
+		var srcPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
+		var destPath = fileType === 'js' ? pkg.config.dest_js : pkg.config.dest_css;
 		var _ = Object.create(Object.prototype);
 
 		Object.keys(files).forEach(function(ele, i, array) {
@@ -38,20 +40,40 @@ module.exports = function(grunt) {
 			}
 		},
 		crc32: {
-			files: {
-				src: ['<%= pkg.config.dest_img %>/**/*'],
+			js: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_js %>',
+				src: ['**/*.js', '!tinymce/*'],
+				filter: 'isFile'
+			},
+			css: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_css %>',
+				src: ['**/*.css'],
+				filter: 'isFile'
+			},
+			img: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_img %>',
+				src: ['**/*'],
 				filter: 'isFile'
 			}
 		},
-		optiIMG: {
-			files: {
+		hashmap: {
+			js: {
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.src_img %>',
-				// match all files in the ${cwd}/ subdirectory and all of its subdirectories.
-				src: ['**/*'],
-				// Destination path prefix.
-				dest: '<%= pkg.config.dest_img %>',
-				filter: 'isFile'
+				cwd: '<%= pkg.config.dest_js %>',
+				src: ['**/*.js']
+			},
+			css: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_css %>',
+				src: ['**/*.css']
+			},
+			jsp: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_jsp %>',
+				src: ['**/*.jsp']
 			}
 		},
 		concat: {
@@ -103,6 +125,17 @@ module.exports = function(grunt) {
 				src: '**/*.css',
 				// Destination path prefix.
 				dest: '<%= pkg.config.dest_css %>'
+			}
+		},
+		optiIMG: {
+			files: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.src_img %>',
+				// match all files in the ${cwd}/ subdirectory and all of its subdirectories.
+				src: ['**/*'],
+				// Destination path prefix.
+				dest: '<%= pkg.config.dest_img %>',
+				filter: 'isFile'
 			}
 		},
 		requirejs: {
@@ -175,7 +208,7 @@ module.exports = function(grunt) {
 	});
 
 	// load custom tasks. 
-	grunt.loadTasks('tasks');
+	grunt.loadTasks('lib/tasks');
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -192,4 +225,3 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['build', 'watch']);
 
 };
-

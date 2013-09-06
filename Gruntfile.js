@@ -7,7 +7,8 @@ module.exports = function(grunt) {
 	var buildStartTime = new Date();
 	var path = require('path');
 	var pkg = grunt.file.readJSON('package.json');
-	var profile = grunt.file.readJSON(path.join(pkg.config.src_js, 'profile.json')); // A profile for build content.
+	// path.join(pkg.config.src_js, 'profile.json')
+	var profile = grunt.file.readJSON('dist/profile.json'); // A profile for build content.
 
 	function getConcatFiles(fileType) {
 		var files = (fileType === 'js' ? profile.concatJS : profile.concatCSS) || {};
@@ -39,24 +40,24 @@ module.exports = function(grunt) {
 			}
 		},
 		crc32: {
-			// js: {
-			// 	// Src matches are relative to this path.
-			// 	cwd: '<%= pkg.config.dest_js %>',
-			// 	src: ['**/*'],
-			// 	filter: 'isFile'
-			// },
+			js: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_js %>',
+				src: ['**/*.js', '!tinymce/*'],
+				filter: 'isFile'
+			},
 			css: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_css %>',
+				src: ['**/*.css'],
+				filter: 'isFile'
+			},
+			img: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_img %>',
 				src: ['**/*'],
 				filter: 'isFile'
-			}//,
-			// img: {
-			// 	// Src matches are relative to this path.
-			// 	cwd: '<%= pkg.config.dest_img %>',
-			// 	src: ['**/*'],
-			// 	filter: 'isFile'
-			// }
+			}
 		},
 		hashmap: {
 			js: {
@@ -207,7 +208,7 @@ module.exports = function(grunt) {
 	});
 
 	// load custom tasks. 
-	grunt.loadTasks('tasks');
+	grunt.loadTasks('lib/tasks');
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');

@@ -36,22 +36,29 @@ module.exports = function(grunt) {
                 // overrides this task from blocking deletion of folders outside current working dir (CWD)
 				force: true
 			},
-			dist: {
-				src: ['<%= pkg.config.dest_js %>', '<%= pkg.config.dest_css %>', '<%= pkg.config.dest_img %>', '<%= pkg.config.dest_jsp %>']
-			}
+			js: {
+				src: ['<%= pkg.config.dest_js %>']
+			},
+            css: {
+                src: ['<%= pkg.config.dest_css %>']
+            },
+            image: {
+                src: ['<%= pkg.config.dest_img %>']
+            },
+            jsp: {
+                src: ['<%= pkg.config.dest_jsp %>']
+            }
 		},
 		crc32: {
 			js: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_js %>',
-				src: ['**/*.js', '!tinymce/*'],
-				filter: 'isFile'
+				src: ['**/*.js', '!tinymce/*']
 			},
 			css: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_css %>',
-				src: ['**/*.css'],
-				filter: 'isFile'
+				src: ['**/*.css']
 			},
 			img: {
 				// Src matches are relative to this path.
@@ -61,21 +68,22 @@ module.exports = function(grunt) {
 			}
 		},
 		hashmap: {
-			js: {
-				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_js %>',
-				src: ['**/*.js']
-			},
+			// js: {
+			// 	// Src matches are relative to this path.
+			// 	cwd: '<%= pkg.config.dest_js %>',
+			// 	src: ['**/*.js']
+			// },
 			css: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_css %>',
 				src: ['**/*.css']
-			},
-			jsp: {
-				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_jsp %>',
-				src: ['**/*.jsp']
 			}
+   //          ,
+			// jsp: {
+			// 	// Src matches are relative to this path.
+			// 	cwd: '<%= pkg.config.dest_jsp %>',
+			// 	src: ['**/*.jsp']
+			// }
 		},
 		concat: {
 			options: {

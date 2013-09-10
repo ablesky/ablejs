@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 			css: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_css %>',
-				src: ['**/*.css']
+				src: ['**/*.css', '!api/ablesky.api.login.css']
 			},
 			img: {
 				// Src matches are relative to this path.
@@ -68,23 +68,29 @@ module.exports = function(grunt) {
 			}
 		},
 		hashmap: {
-			// js: {
-			// 	// Src matches are relative to this path.
-			// 	cwd: '<%= pkg.config.dest_js %>',
-			// 	src: ['**/*.js']
-			// },
+			js: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_js %>',
+				src: ['**/*.js']
+			},
 			css: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_css %>',
-				src: ['**/*.css']
+				src: ['**/*.css', '!api/ablesky.api.login.css']
+			},
+			jsp: {
+				// Src matches are relative to this path.
+				cwd: '<%= pkg.config.dest_jsp %>',
+				src: ['**/*.jsp']
 			}
-   //          ,
-			// jsp: {
-			// 	// Src matches are relative to this path.
-			// 	cwd: '<%= pkg.config.dest_jsp %>',
-			// 	src: ['**/*.jsp']
-			// }
 		},
+        replace: {
+            jsp: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_jsp %>',
+                src: ['**/*.jsp']
+            }
+        },
 		concat: {
 			options: {
 				banner: '<%= banner %>'

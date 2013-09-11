@@ -50,6 +50,10 @@ module.exports = function(grunt) {
             }
 		},
 		crc32: {
+            options: {
+                // keep original file.
+                keep: true
+            },
 			js: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_js %>',

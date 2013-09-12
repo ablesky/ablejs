@@ -51,22 +51,25 @@ module.exports = function(grunt) {
 		},
 		crc32: {
             options: {
-                // keep original file.
+				// if true, copy original file to dest directory, (otherwise just) generate new hash file in dest.
                 keep: true
             },
 			js: {
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_js %>',
+				cwd: '<%= pkg.config.src_js %>',
+				dest: '<%= pkg.config.dest_js %>',
 				src: ['**/*.js', '!tinymce/*']
 			},
 			css: {
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_css %>',
+				cwd: '<%= pkg.config.src_css %>',
+				dest: '<%= pkg.config.dest_css %>',
 				src: ['**/*.css', '!api/ablesky.api.login.css']
 			},
 			img: {
 				// Src matches are relative to this path.
-				cwd: '<%= pkg.config.dest_img %>',
+				cwd: '<%= pkg.config.src_img %>',
+				dest: '<%= pkg.config.dest_img %>',
 				src: ['**/*'],
 				filter: 'isFile'
 			}
@@ -75,7 +78,7 @@ module.exports = function(grunt) {
 			js: {
 				// Src matches are relative to this path.
 				cwd: '<%= pkg.config.dest_js %>',
-				src: ['**/*.js']
+				src: ['**/*.js', '!tinymce/*', '!lib/jquery/*']
 			},
 			css: {
 				// Src matches are relative to this path.
@@ -91,7 +94,7 @@ module.exports = function(grunt) {
         replace: {
             jsp: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_jsp %>',
+                cwd: '<%= pkg.config.dest_jsp %>',
                 src: ['**/*.jsp']
             }
         },

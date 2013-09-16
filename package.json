@@ -5,14 +5,14 @@
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
-    "src_js": "/home/gemstone/Desktop/statics/js",
-    "dest_js": "/home/gemstone/Desktop/statics/js_optimize",
-    "src_css": "/home/gemstone/Desktop/statics/css",
-    "dest_css": "/home/gemstone/Desktop/statics/stylecss_optimize",
-    "src_img": "/home/gemstone/Desktop/statics/images",
-    "dest_img": "/home/gemstone/Desktop/statics/images_optimize",
-    "src_jsp": "/home/gemstone/Desktop/statics/jsp",
-    "dest_jsp": "/home/gemstone/Desktop/statics/jsp_optimize"
+    "src_js": "/home/bxu/statics/js",
+    "dest_js": "/home/bxu/statics/js_optimize",
+    "src_css": "/home/bxu/statics/css",
+    "dest_css": "/home/bxu/statics/stylecss_optimize",
+    "src_img": "/home/bxu/statics/images",
+    "dest_img": "/home/bxu/statics/images_optimize",
+    "src_jsp": "/home/bxu/statics/jsp",
+    "dest_jsp": "/home/bxu/statics/jsp_optimize"
   },
   "dependencies": {
     "grunt": "~0.4.1",

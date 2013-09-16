@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                 cwd: '<%= pkg.config.dest_jsp %>',
                 src: ['**/*.jsp'],
                 // toreplace can be regexp | str
-                toreplace: /<%=staticsServer%>images/g,  
+                toreplace: /<%=staticsServer%>images/g,
                 newstring: '<%=imgPath%>'
             }
         },
@@ -193,6 +193,36 @@ module.exports = function(grunt) {
         shell: {
             target: {
                 command: 'echo Good Job!'
+            }
+        },
+        build: {
+            js: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_js %>',
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_js %>',
+                filter: 'isFile'
+            },
+            css: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_css %>',
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_css %>',
+                filter: 'isFile'
+            },
+            img: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_img %>',
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_img %>',
+                filter: 'isFile'
+            },
+            jsp: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_jsp %>',
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_jsp %>',
+                filter: 'isFile'
             }
         },
         watch: {

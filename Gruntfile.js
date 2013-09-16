@@ -250,10 +250,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    // Patch task.
-    grunt.registerTask('patch', ['concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
-    // Build task.
-    grunt.registerTask('build', ['clean', 'optiIMG', 'concat', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
     // Default task.
     grunt.registerTask('default', ['build', 'watch']);
 

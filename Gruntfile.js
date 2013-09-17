@@ -196,32 +196,33 @@ module.exports = function(grunt) {
             }
         },
         build: {
-            js: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_js %>',
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_js %>',
-                filter: 'isFile'
-            },
-            css: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_css %>',
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_css %>',
-                filter: 'isFile'
-            },
-            img: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_img %>',
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_img %>',
-                filter: 'isFile'
-            },
+            // img: {
+            //     // Src matches are relative to this path.
+            //     cwd: '<%= pkg.config.src_img %>',
+            //     // Destination path prefix.
+            //     dest: '<%= pkg.config.dest_img %>',
+            //     filter: 'isFile'
+            // },
+            // css: {
+            //     // Src matches are relative to this path.
+            //     cwd: '<%= pkg.config.src_css %>',
+            //     // Destination path prefix.
+            //     dest: '<%= pkg.config.dest_css %>',
+            //     filter: 'isFile'
+            // },
+            // js: {
+            //     // Src matches are relative to this path.
+            //     cwd: '<%= pkg.config.src_js %>',
+            //     // Destination path prefix.
+            //     dest: '<%= pkg.config.dest_js %>',
+            //     filter: 'isFile'
+            // },
             jsp: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_jsp %>',
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_jsp %>',
+                src: '**',
                 filter: 'isFile'
             }
         },

@@ -9,7 +9,7 @@
     "dest_js": "/home/bxu/statics/js_optimize",
     "src_css": "/home/bxu/statics/css",
     "dest_css": "/home/bxu/statics/stylecss_optimize",
-    "src_img": "/home/bxu/statics/images",
+    "src_img": "/home/bxu/statics/images_test",
     "dest_img": "/home/bxu/statics/images_optimize",
     "src_jsp": "/home/bxu/statics/jsp",
     "dest_jsp": "/home/bxu/statics/jsp_optimize"

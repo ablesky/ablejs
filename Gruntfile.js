@@ -195,7 +195,7 @@ module.exports = function(grunt) {
                 command: 'echo Good Job!'
             }
         },
-        build: {
+        patch: {
             // img: {
             //     // Src matches are relative to this path.
             //     cwd: '<%= pkg.config.src_img %>',

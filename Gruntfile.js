@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                 files: getConcatFiles('js')
             }
         },
-        optiIMG: {
+        optiimg: {
             files: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_img %>',
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 filter: 'isFile'
             }
         },
-        crc32: {
+        fingerprint: {
             options: {
                 // if true, copy original file to dest directory (this will run slow), (otherwise just) generate new hash file in dest.
                 keep: false
@@ -88,7 +88,7 @@ module.exports = function(grunt) {
                 dest: '<%= pkg.config.dest_css %>',
                 src: ['**/*.css', '!api/ablesky.api.login.css']
             },
-            img: {
+            image: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_img %>',
                 dest: '<%= pkg.config.dest_img %>',
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             }
         },
-        uglifyJS: {
+        uglifyjs: {
             options: {
                 banner: '<%= banner %>'
             },
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
                 dest: '<%= pkg.config.dest_js %>'
             }
         },
-        minifyCSS: {
+        minifycss: {
             options: {
                 banner: '<%= banner %>'
             },
@@ -235,8 +235,8 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('watchingImg', '', function() {
-        grunt.config(['optiIMG', 'files', 'src'], changedImgs);
-        grunt.task.run(['optiIMG']);
+        grunt.config(['optiimg', 'files', 'src'], changedImgs);
+        grunt.task.run(['optiimg']);
     });
 
     grunt.registerTask('logs', 'A custom task that logs stuff.', function() {
@@ -258,7 +258,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('build', ['clean', 'concat', 'optiIMG', 'requirejs', 'uglifyJS', 'minifyCSS', 'shell', 'logs']);
+    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'fingerprint:image', 'requirejs', 'uglifyjs', 'minifycss', 'shell', 'logs']);
     grunt.registerTask('default', ['build', 'watch']);
 
 };

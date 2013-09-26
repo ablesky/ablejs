@@ -5,6 +5,7 @@
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
+    "patch": "/home/bxu/statics/statics_patch",
     "src_js": "/home/bxu/statics/js",
     "dest_js": "/home/bxu/statics/js_optimize",
     "src_css": "/home/bxu/statics/css",
@@ -28,9 +29,11 @@
     "optipng-bin": "~0.3.0",
     "jpegtran-bin": "~0.2.0",
     "ssh2": "~0.2.12",
-    "buffer-crc32": "~0.2.1",
     "colors": "~0.6.2",
-    "requirejs": "~2.1.8"
+    "requirejs": "~2.1.8",
+    "MD5": "~1.1.0",
+    "crc": "~0.2.1",
+    "madge": "~0.1.7"
   },
   "bin": {
     "ablejs": "./bin/run"

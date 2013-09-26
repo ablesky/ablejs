@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     function getConcatFiles(fileType) {
         var files = (fileType === 'js' ? profile.concatJS : profile.concatCSS) || {};
         var srcPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
-        var destPath = fileType === 'js' ? pkg.config.dest_js : pkg.config.dest_css;
+        var destPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
         var _ = Object.create(Object.prototype);
 
         Object.keys(files).forEach(function(ele, i, array) {
@@ -49,7 +49,29 @@ module.exports = function(grunt) {
                 src: ['<%= pkg.config.dest_jsp %>']
             }
         },
-        crc32: {
+        concat: {
+            options: {
+                banner: '<%= banner %>'
+            },
+            css: {
+                files: getConcatFiles('css')
+            },
+            js: {
+                files: getConcatFiles('js')
+            }
+        },
+        optiimg: {
+            files: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_img %>',
+                // match all files in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['**/*'],
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_img %>',
+                filter: 'isFile'
+            }
+        },
+        filehash: {
             options: {
                 // if true, copy original file to dest directory (this will run slow), (otherwise just) generate new hash file in dest.
                 keep: false
@@ -66,7 +88,7 @@ module.exports = function(grunt) {
                 dest: '<%= pkg.config.dest_css %>',
                 src: ['**/*.css', '!api/ablesky.api.login.css']
             },
-            img: {
+            image: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_img %>',
                 dest: '<%= pkg.config.dest_img %>',
@@ -101,17 +123,6 @@ module.exports = function(grunt) {
                 newstring: '<%=imgPath%>'
             }
         },
-        concat: {
-            options: {
-                banner: '<%= banner %>'
-            },
-            css: {
-                files: getConcatFiles('css')
-            },
-            js: {
-                files: getConcatFiles('js')
-            }
-        },
         jshint: {
             options: {
                 // http://www.jshint.com/docs/options/
@@ -122,7 +133,7 @@ module.exports = function(grunt) {
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             }
         },
-        uglifyJS: {
+        uglifyjs: {
             options: {
                 banner: '<%= banner %>'
             },
@@ -137,7 +148,7 @@ module.exports = function(grunt) {
                 dest: '<%= pkg.config.dest_js %>'
             }
         },
-        minifyCSS: {
+        minifycss: {
             options: {
                 banner: '<%= banner %>'
             },
@@ -150,17 +161,6 @@ module.exports = function(grunt) {
                 src: '**/*.css',
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_css %>'
-            }
-        },
-        optiIMG: {
-            files: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_img %>',
-                // match all files in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['**/*'],
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_img %>',
-                filter: 'isFile'
             }
         },
         requirejs: {
@@ -196,33 +196,9 @@ module.exports = function(grunt) {
             }
         },
         patch: {
-            // img: {
-            //     // Src matches are relative to this path.
-            //     cwd: '<%= pkg.config.src_img %>',
-            //     // Destination path prefix.
-            //     dest: '<%= pkg.config.dest_img %>',
-            //     filter: 'isFile'
-            // },
-            // css: {
-            //     // Src matches are relative to this path.
-            //     cwd: '<%= pkg.config.src_css %>',
-            //     // Destination path prefix.
-            //     dest: '<%= pkg.config.dest_css %>',
-            //     filter: 'isFile'
-            // },
-            // js: {
-            //     // Src matches are relative to this path.
-            //     cwd: '<%= pkg.config.src_js %>',
-            //     // Destination path prefix.
-            //     dest: '<%= pkg.config.dest_js %>',
-            //     filter: 'isFile'
-            // },
-            jsp: {
+            files: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_jsp %>',
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_jsp %>',
-                src: '**',
+                cwd: '<%= pkg.config.patch %>',
                 filter: 'isFile'
             }
         },
@@ -259,8 +235,8 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('watchingImg', '', function() {
-        grunt.config(['optiIMG', 'files', 'src'], changedImgs);
-        grunt.task.run(['optiIMG']);
+        grunt.config(['optiimg', 'files', 'src'], changedImgs);
+        grunt.task.run(['optiimg']);
     });
 
     grunt.registerTask('logs', 'A custom task that logs stuff.', function() {
@@ -282,6 +258,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
+    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'filehash:image', 'requirejs', 'uglifyjs', 'minifycss', 'shell', 'logs']);
     grunt.registerTask('default', ['build', 'watch']);
 
 };

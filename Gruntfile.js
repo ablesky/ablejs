@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 filter: 'isFile'
             }
         },
-        fingerprint: {
+        filehash: {
             options: {
                 // if true, copy original file to dest directory (this will run slow), (otherwise just) generate new hash file in dest.
                 keep: false
@@ -258,7 +258,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'fingerprint:image', 'requirejs', 'uglifyjs', 'minifycss', 'shell', 'logs']);
+    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'filehash:image', 'requirejs', 'uglifyjs', 'minifycss', 'shell', 'logs']);
     grunt.registerTask('default', ['build', 'watch']);
 
 };

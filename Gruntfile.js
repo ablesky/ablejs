@@ -49,6 +49,16 @@ module.exports = function(grunt) {
                 src: ['<%= pkg.config.dest_jsp %>']
             }
         },
+        jshint: {
+            options: {
+                // http://www.jshint.com/docs/options/
+                jshintrc: '.jshintrc'
+            },
+            ablejs: {
+                // expand: true,
+                src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
+            }
+        },
         concat: {
             options: {
                 banner: '<%= banner %>'
@@ -65,52 +75,36 @@ module.exports = function(grunt) {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_img %>',
                 // match all files in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['**/*'],
+                src: ['**/*', '!**/*.psd'],
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_img %>',
                 filter: 'isFile'
             }
         },
-        filehash: {
+        opticss: {
             options: {
-                // if true, copy original file to dest directory (this will run slow), (otherwise just) generate new hash file in dest.
-                keep: false
+                banner: '<%= banner %>'
             },
-            js: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_js %>',
-                dest: '<%= pkg.config.dest_js %>',
-                src: ['**/*.js', '!tinymce/*']
-            },
-            css: {
+            files: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_css %>',
-                dest: '<%= pkg.config.dest_css %>',
-                src: ['**/*.css', '!api/ablesky.api.login.css']
-            },
-            image: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_img %>',
-                dest: '<%= pkg.config.dest_img %>',
-                src: ['**/*'],
-                filter: 'isFile'
+                // match all files ending with .css in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['**/*.css', '!api/ablesky.api.login.css'],
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_css %>'
             }
         },
-        hashmap: {
-            js: {
+        optijs: {
+            options: {
+                banner: '<%= banner %>'
+            },
+            files: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.dest_js %>',
-                src: ['**/*.js', '!tinymce/*', '!lib/jquery/*']
-            },
-            css: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.dest_css %>',
-                src: ['**/*.css', '!api/ablesky.api.login.css']
-            },
-            jsp: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.dest_jsp %>',
-                src: ['**/*.jsp']
+                // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['**/*.js', '!tinymce/*', '!lib/jquery/*'],
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_js %>'
             }
         },
         replace: {
@@ -121,46 +115,6 @@ module.exports = function(grunt) {
                 // toreplace can be regexp | str
                 toreplace: /<%=staticsServer%>images/g,
                 newstring: '<%=imgPath%>'
-            }
-        },
-        jshint: {
-            options: {
-                // http://www.jshint.com/docs/options/
-                jshintrc: '.jshintrc'
-            },
-            ablejs: {
-                // expand: true,
-                src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
-            }
-        },
-        uglifyjs: {
-            options: {
-                banner: '<%= banner %>'
-            },
-            files: {
-                // Enable dynamic expansion.
-                expand: true,
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.dest_js %>',
-                // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: '**/*.js',
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_js %>'
-            }
-        },
-        minifycss: {
-            options: {
-                banner: '<%= banner %>'
-            },
-            files: {
-                // Enable dynamic expansion.
-                expand: true,
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_css %>',
-                // match all files ending with .css in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: '**/*.css',
-                // Destination path prefix.
-                dest: '<%= pkg.config.dest_css %>'
             }
         },
         requirejs: {

@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         // Metadata.
         pkg: pkg,
-        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %>\n' + '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n' + '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + '* Copyright (c) <%= grunt.template.today("yyyy") %> support@ablesky.com;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
         // Task configuration.
         clean: {
             options: {
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
             },
             files: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.dest_js %>',
+                cwd: '<%= pkg.config.src_js %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['**/*.js', '!tinymce/*', '!lib/jquery/*'],
                 // Destination path prefix.
@@ -115,33 +115,6 @@ module.exports = function(grunt) {
                 // toreplace can be regexp | str
                 toreplace: /<%=staticsServer%>images/g,
                 newstring: '<%=imgPath%>'
-            }
-        },
-        requirejs: {
-            compile: {
-                options: {
-                    allConfigurationOptionsUrl: 'https://github.com/jrburke/r.js/blob/master/build/example.build.js',
-                    baseUrl: '<%= pkg.config.src_js %>',
-                    dir: '<%= pkg.config.dest_js %>',
-                    paths: {
-                        'jquery': 'empty:'
-                    },
-                    useStrict: true,
-                    useSourceUrl: false,
-                    optimize: 'none',
-                    generateSourceMaps: false,
-                    preserveLicenseComments: false,
-                    keepBuildDir: true,
-                    skipDirOptimize: true,
-                    optimizeAllPluginResources: false,
-                    findNestedDependencies: true,
-                    modules: profile.modules,
-                    onBuildRead: function(moduleName, path, contents) {
-                        console.log('reading: ' + path);
-
-                        return contents;
-                    }
-                }
             }
         },
         shell: {

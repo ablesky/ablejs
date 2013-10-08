@@ -102,7 +102,7 @@ module.exports = function(grunt) {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_js %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['**/*.js', '!tinymce/*', '!lib/jquery/*'],
+                src: ['**/*.js', '!tinymce/*.js', '!lib/jquery/*.js'],
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_js %>'
             }
@@ -181,7 +181,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.

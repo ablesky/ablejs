@@ -40,6 +40,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "implements": ["CommonJS/Packages/1.1"],
   "author": {
     "name": "bxu@ablesky.com"
   },

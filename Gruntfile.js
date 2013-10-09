@@ -3,7 +3,6 @@ module.exports = function(grunt) {
 
     'use strict';
 
-    // var fs = require('fs');
     var buildStartTime = new Date();
     var path = require('path');
     var pkg = grunt.file.readJSON('package.json');
@@ -102,9 +101,19 @@ module.exports = function(grunt) {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_js %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['**/*.js', '!tinymce/*.js', '!lib/jquery/*.js'],
+                src: ['**/*.js', '!tinymce/**/*.js'],
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_js %>'
+            }
+        },
+        optijsp: {
+            files: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_jsp %>',
+                // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['**/*.jsp'],
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_jsp %>'
             }
         },
         replace: {
@@ -129,21 +138,26 @@ module.exports = function(grunt) {
                 filter: 'isFile'
             }
         },
+        timing: {
+            options: {
+                start: buildStartTime
+            }
+        },
         watch: {
             options: {
-                interrupt: true
+                interrupt: false
                 // ,
                 // interval: 5007 // 5007 is the old node polling default
             },
             js: {
-                files: '<%= pkg.config.src_js %>/**/*',
+                files: ['<%= pkg.config.src_js %>/**/*'],
                 tasks: ['patch']
             },
             css: {
                 files: '<%= pkg.config.src_css %>/**/*.css',
                 tasks: ['patch']
             },
-            images: {
+            image: {
                 files: ['<%= pkg.config.src_img %>/**/*'],
                 tasks: ['patch']
             },
@@ -152,26 +166,6 @@ module.exports = function(grunt) {
                 tasks: ['patch']
             }
         }
-    });
-
-    var changedImgs = [];
-    // on watch events configure task to only run on changed file.
-    grunt.event.on('watch', function(action, filepath) {
-        console.log(filepath);
-        changedImgs.push(filepath);
-    });
-
-    grunt.registerTask('watchingImg', '', function() {
-        grunt.config(['optiimg', 'files', 'src'], changedImgs);
-        grunt.task.run(['optiimg']);
-    });
-
-    grunt.registerTask('logs', 'A custom task that logs stuff.', function() {
-        var buildEndTime = new Date();
-
-        grunt.log.writeln('Start Time: ' + buildStartTime);
-        grunt.log.writeln('End Time:   ' + buildEndTime);
-        grunt.log.writeln('Statics build total time: ' + (buildEndTime - buildStartTime) / 1000 + 's');
     });
 
     // load custom tasks. 
@@ -184,7 +178,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'filehash:image', 'requirejs', 'uglifyjs', 'minifycss', 'shell', 'logs']);
+    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'timing']);
     grunt.registerTask('default', ['build', 'watch']);
 
 };

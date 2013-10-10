@@ -5,7 +5,6 @@
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
   "config": {
-    "patch": "/home/bxu/statics/statics_patch",
     "src_js": "/home/bxu/statics/js",
     "dest_js": "/home/bxu/statics/js_optimize",
     "src_css": "/home/bxu/statics/css",

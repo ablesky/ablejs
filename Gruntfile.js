@@ -24,6 +24,10 @@ module.exports = function(grunt) {
         return _;
     }
 
+    function getSourceRootDirname(path) {
+        return path.split('/').pop();
+    }
+
     // Project configuration.
     grunt.initConfig({
         // Metadata.
@@ -35,14 +39,14 @@ module.exports = function(grunt) {
                 // overrides this task from blocking deletion of folders outside current working dir (CWD)
                 force: true
             },
-            js: {
-                src: ['<%= pkg.config.dest_js %>']
+            image: {
+                src: ['<%= pkg.config.dest_img %>']
             },
             css: {
                 src: ['<%= pkg.config.dest_css %>']
             },
-            image: {
-                src: ['<%= pkg.config.dest_img %>']
+            js: {
+                src: ['<%= pkg.config.dest_js %>']
             },
             jsp: {
                 src: ['<%= pkg.config.dest_jsp %>']
@@ -54,8 +58,10 @@ module.exports = function(grunt) {
                 jshintrc: '.jshintrc'
             },
             ablejs: {
-                // expand: true,
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
+            },
+            project: {
+                src: ['<%= pkg.config.src_js %>**/*.js']
             }
         },
         concat: {
@@ -131,39 +137,20 @@ module.exports = function(grunt) {
                 command: 'echo Good Job!'
             }
         },
-        patch: {
-            files: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.patch %>',
-                filter: 'isFile'
-            }
-        },
         timing: {
             options: {
                 start: buildStartTime
             }
         },
-        watch: {
+        patch: {
             options: {
-                interrupt: false
-                // ,
-                // interval: 5007 // 5007 is the old node polling default
-            },
-            js: {
-                files: ['<%= pkg.config.src_js %>/**/*'],
-                tasks: ['patch']
-            },
-            css: {
-                files: '<%= pkg.config.src_css %>/**/*.css',
-                tasks: ['patch']
-            },
-            image: {
-                files: ['<%= pkg.config.src_img %>/**/*'],
-                tasks: ['patch']
-            },
-            jsp: {
-                files: '<%= pkg.config.src_jsp %>/**/*.jsp',
-                tasks: ['patch']
+                jshint: false,
+                root: {
+                    img: getSourceRootDirname(pkg.config.src_img),
+                    css: getSourceRootDirname(pkg.config.src_css),
+                    js: getSourceRootDirname(pkg.config.src_js),
+                    jsp: getSourceRootDirname(pkg.config.src_jsp)
+                }
             }
         }
     });
@@ -179,6 +166,6 @@ module.exports = function(grunt) {
 
     // Default task.
     grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'timing']);
-    grunt.registerTask('default', ['build', 'watch']);
+    grunt.registerTask('default', ['build']);
 
 };

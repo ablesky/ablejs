@@ -25,7 +25,6 @@ module.exports = function(grunt) {
     }
 
     function getSourceRootDirname(path) {
-        console.log(path, path.split('/').pop())
         return path.split('/').pop();
     }
 

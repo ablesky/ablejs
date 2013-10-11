@@ -24,6 +24,11 @@ module.exports = function(grunt) {
         return _;
     }
 
+    function getSourceRootDirname(path) {
+        console.log(path, path.split('/').pop())
+        return path.split('/').pop();
+    }
+
     // Project configuration.
     grunt.initConfig({
         // Metadata.
@@ -134,6 +139,16 @@ module.exports = function(grunt) {
         timing: {
             options: {
                 start: buildStartTime
+            }
+        },
+        patch: {
+            options: {
+                root: {
+                    img: getSourceRootDirname(pkg.config.src_img),
+                    css: getSourceRootDirname(pkg.config.src_css),
+                    js: getSourceRootDirname(pkg.config.src_js),
+                    jsp: getSourceRootDirname(pkg.config.src_jsp)
+                }
             }
         }
     });

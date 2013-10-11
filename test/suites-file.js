@@ -1,6 +1,7 @@
 /**
  * A test suite.
  */
+/* global describe:true, it:true */
 
 // node libs.
 var assert = require("assert");

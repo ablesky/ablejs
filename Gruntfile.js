@@ -58,8 +58,10 @@ module.exports = function(grunt) {
                 jshintrc: '.jshintrc'
             },
             ablejs: {
-                // expand: true,
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
+            },
+            project: {
+                src: ['<%= pkg.config.src_js %>**/*.js']
             }
         },
         concat: {
@@ -142,6 +144,7 @@ module.exports = function(grunt) {
         },
         patch: {
             options: {
+                jshint: false,
                 root: {
                     img: getSourceRootDirname(pkg.config.src_img),
                     css: getSourceRootDirname(pkg.config.src_css),

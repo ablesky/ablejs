@@ -3,26 +3,14 @@ module.exports = function(grunt) {
 
     'use strict';
 
-    var buildStartTime = new Date();
+    // node libs.
     var path = require('path');
+
+    // internal libs.
+    var profileUtil = require('./lib/common/profile');
+
+    var startTime = new Date();
     var pkg = grunt.file.readJSON('package.json');
-    // path.join(pkg.config.src_js, 'profile.json')
-    var profile = grunt.file.readJSON('dist/profile.json'); // A profile for build content.
-
-    function getConcatFiles(fileType) {
-        var files = (fileType === 'js' ? profile.concatJS : profile.concatCSS) || {};
-        var srcPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
-        var destPath = fileType === 'js' ? pkg.config.src_js : pkg.config.src_css;
-        var _ = Object.create(Object.prototype);
-
-        Object.keys(files).forEach(function(ele, i, array) {
-            _[path.join(destPath, ele)] = files[ele].map(function(filename) {
-                return path.join(srcPath, filename);
-            });
-        });
-
-        return _;
-    }
 
     function getSourceRootDirname(path) {
         return path.split('/').pop();
@@ -69,10 +57,10 @@ module.exports = function(grunt) {
                 banner: '<%= banner %>'
             },
             css: {
-                files: getConcatFiles('css')
+                files: profileUtil.getConcatFiles('css', pkg.config.src_css)
             },
             js: {
-                files: getConcatFiles('js')
+                files: profileUtil.getConcatFiles('js', pkg.config.src_js)
             }
         },
         optiimg: {
@@ -137,9 +125,9 @@ module.exports = function(grunt) {
                 command: 'echo Good Job!'
             }
         },
-        timing: {
+        chrono: {
             options: {
-                start: buildStartTime
+                start: startTime
             }
         },
         patch: {
@@ -165,7 +153,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'timing']);
+    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
     grunt.registerTask('default', ['build']);
 
 };

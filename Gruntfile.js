@@ -137,7 +137,7 @@ module.exports = function(grunt) {
                 command: 'echo Good Job!'
             }
         },
-        timing: {
+        chrono: {
             options: {
                 start: buildStartTime
             }

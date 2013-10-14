@@ -3,9 +3,6 @@ module.exports = function(grunt) {
 
     'use strict';
 
-    // node libs.
-    var path = require('path');
-
     // internal libs.
     var profileUtil = require('./lib/common/profile');
 
@@ -48,7 +45,7 @@ module.exports = function(grunt) {
             ablejs: {
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             },
-            project: {
+            develop: {
                 src: ['<%= pkg.config.src_js %>**/*.js']
             }
         },
@@ -121,7 +118,7 @@ module.exports = function(grunt) {
             }
         },
         shell: {
-            target: {
+            echo: {
                 command: 'echo Good Job!'
             }
         },

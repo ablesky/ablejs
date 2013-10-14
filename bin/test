@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+'use strict';
+
+// Nodejs libs.
+var spawn = require('child_process').spawn;
+
+var mochaProcess = spawn('./node_modules/mocha/bin/mocha', ['est/suites-*.js'], {
+    cwd: __dirname + '/../'
+});
+
+mochaProcess.on('exit', function(code, signal) {
+    process.on('exit', function() {
+        if (signal) {
+            process.kill(process.pid, signal);
+        } else {
+            process.exit(code);
+        }
+    });
+});

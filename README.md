@@ -11,13 +11,16 @@ ablejs
 2. ``` npm install -g ablejs ```
 
 ### Usage
-type in command line: 
 
     ablejs
 
 build project in command line:, by typing 
     
     ablejs build 
+
+patch in command line:, by typing 
+    
+    ablejs patch:/your/patch/directory/in/file/system/
 
 
 ### Release History

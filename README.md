@@ -24,10 +24,10 @@ patch in command line:, by typing
 
 ### Mindmaps 
 
-[<img align="middle" src="./doc/images/ablejs.png" />](./doc/mindmaps.md)
+<img align="middle" src="./doc/images/ablejs.png" />
 
-### Document
-See the [DOCUMENT](doc/README.md).
+### Documents
+See the [documents](doc/README.md).
 
 ### Release History
 See the [CHANGELOG](CHANGELOG).

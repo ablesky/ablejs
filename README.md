@@ -1,7 +1,7 @@
 ablejs
 =============
-[aslink]: http://www.ablesky.com
->The statics build tools for [ablesky](aslink)
+
+>The statics build tools for [ablesky](http://www.ablesky.com)
 
 <img align="right" src="http://stat.ablesky.com/stata/images/market/index/index-new-logo.png" />
 
@@ -22,6 +22,12 @@ patch in command line:, by typing
     
     ablejs patch:/your/patch/directory/in/file/system/
 
+### Mindmaps 
+
+<img align="middle" src="./doc/images/ablejs.png" />
+
+### Documents
+See the [documents](doc/README.md).
 
 ### Release History
 See the [CHANGELOG](CHANGELOG).

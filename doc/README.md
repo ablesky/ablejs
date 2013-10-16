@@ -1,8 +1,4 @@
-Document
+Documents
 =============
 
-<ul>
-    <li>[Exit Codes](exit-codes.md)</li>
-</ul>
-
-
+* [Exit Codes](exit-codes.md)

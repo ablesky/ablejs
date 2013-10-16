@@ -1,6 +1,6 @@
-"" Exit Codes
-[link]: http://gruntjs.com/api/exit-codes
->it follows the gruntjs exit codes: [grunt exit codes](link)
+### Exit Codes
+
+>it follows the gruntjs exit codes: [grunt exit codes](http://gruntjs.com/api/exit-codes)
 
 0 - No errors!
 1 - Fatal error

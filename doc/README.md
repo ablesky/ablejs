@@ -1,4 +1,4 @@
 Documents
 =============
 
-* [Exit Codes](exit-codes.md)
+* [Exit Codes](exitcodes.md)

@@ -14,13 +14,13 @@ ablejs
 
     ablejs
 
-build project in command line:, by typing 
+build project in command line, by typing: 
     
     ablejs build 
 
-patch in command line:, by typing 
+patch in command line, (the second args between semicolon "project" means the patch project names) by typing: 
     
-    ablejs patch:/your/patch/directory/in/file/system/
+    ablejs patch:project:/your/patch/directory/in/file/system/
 
 ### Mindmaps 
 

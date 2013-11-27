@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         // Metadata.
         pkg: pkg,
-        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n' + '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + '* Copyright (c) <%= grunt.template.today("yyyy") %> support@ablesky.com;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n' + '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + '* Copyright (c) <%= grunt.template.today("yyyy") %> frontend@ablesky.com;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
         // Task configuration.
         clean: {
             options: {
@@ -115,6 +115,14 @@ module.exports = function(grunt) {
                 // toreplace can be regexp | str
                 toreplace: /<%=staticsServer%>images/g,
                 newstring: '<%=imgPath%>'
+            },
+            css: {
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.dest_css %>',
+                src: ['**/*.css'],
+                // toreplace can be regexp | str
+                toreplace: /ableskystatics\/images\//g,
+                newstring: 'ableskystatics/images_optimize/'
             }
         },
         shell: {

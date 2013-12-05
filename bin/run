@@ -2,11 +2,18 @@
 
 'use strict';
 
+process.title = 'the statics build tools for ablesky';
+
 // Nodejs libs.
 var path = require('path');
+
+// internal libs.
+var argv = require('../lib/utils/argv');
+
 var basedir = path.resolve(__dirname + '/../');
+argv.init(process.argv);
 
 require('../node_modules/grunt/lib/grunt').cli({
-	base: basedir,
-	gruntfile: path.join(basedir, 'Gruntfile.js')
+    base: basedir,
+    gruntfile: path.join(basedir, 'Gruntfile.js')
 });

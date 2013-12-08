@@ -8,11 +8,23 @@ process.title = 'the statics build tools for ablesky';
 var path = require('path');
 
 // internal libs.
+var log = require('../lib/utils/log');
 var argv = require('../lib/utils/argv');
 
-var basedir = path.resolve(__dirname + '/../');
 argv.init(process.argv);
 
+switch(argv.get('colors')) {
+    case null:
+        log.setColorMode('none');
+        break;
+    case 'browser':
+        log.setColorMode('browser');
+        break;
+    default:
+        log.setColorMode('console');
+}
+
+var basedir = path.resolve(__dirname + '/../');
 require('../node_modules/grunt/lib/grunt').cli({
     base: basedir,
     gruntfile: path.join(basedir, 'Gruntfile.js')

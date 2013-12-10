@@ -13,19 +13,26 @@ var argv = require('../lib/utils/argv');
 
 argv.init(process.argv);
 
-switch(argv.get('colors')) {
+var colorMode = 'console';
+switch (argv.get('colors')) {
     case null:
-        log.setColorMode('none');
+        colorMode = 'none';
         break;
     case 'browser':
-        log.setColorMode('browser');
+        colorMode = 'browser';
         break;
     default:
-        log.setColorMode('console');
+        colorMode = 'console';
 }
+
+log.setColorMode(colorMode);
 
 var basedir = path.resolve(__dirname + '/../');
 require('../node_modules/grunt/lib/grunt').cli({
     base: basedir,
     gruntfile: path.join(basedir, 'Gruntfile.js')
+});
+
+process.on('exit', function(argument) {
+    // body...
 });

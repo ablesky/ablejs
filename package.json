@@ -81,6 +81,7 @@
     "madge": "~0.1.7",
     "grunt-contrib-watch": "~0.5.3",
     "jpegtran-bin": "~0.2.1",
-    "optipng-bin": "~0.3.1"
+    "optipng-bin": "~0.3.1",
+    "exit": "~0.1.2"
   }
 }

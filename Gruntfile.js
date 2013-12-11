@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     'use strict';
 
     // internal libs.
-    var profileUtil = require('./lib/common/profile');
+    var profileUtil = require('./lib/utils/profile');
 
     var startTime = new Date();
     var pkg = grunt.file.readJSON('package.json');
@@ -137,6 +137,7 @@ module.exports = function(grunt) {
         },
         patch: {
             options: {
+                // the flag can turn on/off the jshint task at patch task.
                 jshint: false,
                 root: {
                     img: getSourceRootDirname(pkg.config.src_img),
@@ -155,7 +156,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
     grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);

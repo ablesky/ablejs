@@ -32,7 +32,3 @@ require('../node_modules/grunt/lib/grunt').cli({
     base: basedir,
     gruntfile: path.join(basedir, 'Gruntfile.js')
 });
-
-process.on('exit', function(argument) {
-    // body...
-});

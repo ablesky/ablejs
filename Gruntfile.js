@@ -54,10 +54,10 @@ module.exports = function(grunt) {
                 banner: '<%= banner %>'
             },
             css: {
-                files: profileUtil.getConcatFiles('css', pkg.config.src_css)
+                files: profileUtil.getConcats('css', pkg.config.src_css)
             },
             js: {
-                files: profileUtil.getConcatFiles('js', pkg.config.src_js)
+                files: profileUtil.getConcats('js', pkg.config.src_js)
             }
         },
         optiimg: {

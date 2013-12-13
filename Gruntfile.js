@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     'use strict';
 
     // internal libs.
-    var profileUtil = require('./lib/common/profile');
+    var profileUtil = require('./lib/utils/profile');
 
     var startTime = new Date();
     var pkg = grunt.file.readJSON('package.json');
@@ -54,10 +54,10 @@ module.exports = function(grunt) {
                 banner: '<%= banner %>'
             },
             css: {
-                files: profileUtil.getConcatFiles('css', pkg.config.src_css)
+                files: profileUtil.getConcats('css', pkg.config.src_css)
             },
             js: {
-                files: profileUtil.getConcatFiles('js', pkg.config.src_js)
+                files: profileUtil.getConcats('js', pkg.config.src_js)
             }
         },
         optiimg: {
@@ -98,6 +98,9 @@ module.exports = function(grunt) {
             }
         },
         optijsp: {
+            options: {
+                jsBasePath: '<%= pkg.config.src_js %>',
+            },
             files: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_jsp %>',
@@ -137,6 +140,7 @@ module.exports = function(grunt) {
         },
         patch: {
             options: {
+                // the flag can turn on/off the jshint task at patch task.
                 jshint: false,
                 root: {
                     img: getSourceRootDirname(pkg.config.src_img),
@@ -155,7 +159,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
     grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);

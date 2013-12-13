@@ -14,6 +14,8 @@ var argv = require('../lib/utils/argv');
 argv.init(process.argv);
 
 var colorMode = 'console';
+var debugMode = argv.get('debug');
+
 switch (argv.get('colors')) {
     case null:
         colorMode = 'none';
@@ -26,6 +28,8 @@ switch (argv.get('colors')) {
 }
 
 log.setColorMode(colorMode);
+log.setDebugMode(colorMode);
+
 
 var basedir = path.resolve(__dirname + '/../');
 require('../node_modules/grunt/lib/grunt').cli({

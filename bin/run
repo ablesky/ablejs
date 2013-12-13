@@ -28,7 +28,7 @@ switch (argv.get('colors')) {
 }
 
 log.setColorMode(colorMode);
-log.setDebugMode(colorMode);
+log.setDebugMode(debugMode);
 
 
 var basedir = path.resolve(__dirname + '/../');

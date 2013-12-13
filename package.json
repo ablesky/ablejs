@@ -65,23 +65,6 @@
   },
   "_from": "ablejs/",
   "devDependencies": {
-    "colors": "~0.6.2",
-    "crc": "~0.2.1",
-    "grunt-contrib-clean": "~0.5.0",
-    "mkdirp": "~0.3.5",
-    "grunt-contrib-concat": "~0.3.0",
-    "MD5": "~1.1.0",
-    "rimraf": "~2.2.2",
-    "requirejs": "~2.1.9",
-    "clean-css": "~1.0.12",
-    "ssh2": "~0.2.14",
-    "grunt-contrib-jshint": "~0.6.5",
-    "grunt": "~0.4.2",
-    "uglify-js": "~2.3.6",
-    "madge": "~0.1.7",
-    "grunt-contrib-watch": "~0.5.3",
-    "jpegtran-bin": "~0.2.1",
-    "optipng-bin": "~0.3.1",
-    "exit": "~0.1.2"
+    "ssh2": "~0.2.14"
   }
 }

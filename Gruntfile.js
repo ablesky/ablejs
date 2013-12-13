@@ -98,6 +98,9 @@ module.exports = function(grunt) {
             }
         },
         optijsp: {
+            options: {
+                jsBasePath: '<%= pkg.config.src_js %>',
+            },
             files: {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_jsp %>',

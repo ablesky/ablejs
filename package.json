@@ -25,14 +25,14 @@
     "clean-css": "~1.0.12",
     "optipng-bin": "~0.3.0",
     "jpegtran-bin": "~0.2.0",
-    "ssh2": "~0.2.12",
     "colors": "~0.6.2",
     "requirejs": "~2.1.8",
     "MD5": "~1.1.0",
     "crc": "~0.2.1",
     "madge": "~0.1.7",
     "mocha": "~1.13.0",
-    "nopt": "~2.1.2"
+    "nopt": "~2.1.2",
+    "detect-amd": "~1.0.0"
   },
   "bin": {
     "ablejs": "./bin/run"

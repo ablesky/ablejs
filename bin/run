@@ -13,8 +13,12 @@ var argv = require('../lib/utils/argv');
 
 argv.init(process.argv);
 
-var colorMode = 'console';
+var basedir = path.resolve(__dirname + '/../');
+var cli = argv.get('cli');
 var debugMode = argv.get('debug');
+var colorMode = 'console';
+
+log.setDebugMode(debugMode);
 
 switch (argv.get('colors')) {
     case null:
@@ -28,11 +32,13 @@ switch (argv.get('colors')) {
 }
 
 log.setColorMode(colorMode);
-log.setDebugMode(debugMode);
 
-
-var basedir = path.resolve(__dirname + '/../');
-require('../node_modules/grunt/lib/grunt').cli({
-    base: basedir,
-    gruntfile: path.join(basedir, 'Gruntfile.js')
-});
+if (cli) {
+    // command-line interface for ablejs.
+    require('../lib/common/cli');
+} else {
+    require('../node_modules/grunt/lib/grunt').cli({
+        base: basedir,
+        gruntfile: path.join(basedir, 'Gruntfile.js')
+    });
+}

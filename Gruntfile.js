@@ -159,8 +159,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
 
+
+    grunt.registerTask('prebuild', function() {
+        // clear filemap to init status.
+        require('./lib/common/filemap').clear();
+    });
+
     // Default task.
-    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
+    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
     grunt.registerTask('default', ['build']);
 
 };

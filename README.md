@@ -12,19 +12,15 @@ ablejs
 
 ### Usage
 
-    ablejs
+    ablejs -h
 
 build project in command line, by typing: 
     
     ablejs build 
 
-patch in command line, (the second args between semicolon "project" means the patch project names) by typing: 
+patch in command line, by typing: 
     
-    ablejs patch:project:/your/patch/directory/in/file/system/
-
-### Mindmaps 
-
-<img align="middle" src="./doc/images/ablejs.png" />
+    ablejs patch --project /your/patch/directory/in/file/system/
 
 ### Documents
 See the [documents](doc/README.md).

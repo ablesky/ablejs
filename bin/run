@@ -18,6 +18,7 @@ var cli = argv.get('cli');
 var debugMode = argv.get('debug');
 var colorMode = 'console';
 
+process.chdir(basedir);
 log.setDebugMode(debugMode);
 
 switch (argv.get('colors')) {

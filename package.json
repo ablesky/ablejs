@@ -31,7 +31,7 @@
     "madge": "~0.1.7",
     "mocha": "~1.13.0",
     "nopt": "~2.1.2",
-    "detect-amd": "~1.0.0"
+    "esprima": "~1.0.4"
   },
   "bin": {
     "ablejs": "./bin/run"

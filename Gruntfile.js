@@ -51,13 +51,17 @@ module.exports = function(grunt) {
         },
         concat: {
             options: {
-                banner: '<%= banner %>'
+                banner: '' // do not add <%= banner %> in concat task.
             },
             css: {
-                files: profileUtil.getConcats('css', pkg.config.src_css)
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_css %>',
+                files: profileUtil.getConcats('css')
             },
             js: {
-                files: profileUtil.getConcats('js', pkg.config.src_js)
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_js %>',
+                files: profileUtil.getConcats('js')
             }
         },
         optiimg: {
@@ -157,8 +161,6 @@ module.exports = function(grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-
 
     grunt.registerTask('prebuild', function() {
         // clear filemap to init status.

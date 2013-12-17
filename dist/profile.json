@@ -17,7 +17,8 @@
             "css-min.css": ["common/global.css", "extCssNew.css", "data-view.css", "comment.css", "common/site-nav.css",
                 "head.css", "foot.css", "webim.css", "support.css", "jquery/datatables.css", "jquery/datepicker.css", "jquery/dialog.css"
             ],
-            "common/global-min.css": ["common/reset.css", "common/global.css", "common/site-nav.css", "webim.css", "jquery/dialog.css"]
+            "common/global-min.css": ["common/reset.css", "common/global.css", "common/site-nav.css", "webim.css", "jquery/dialog.css"],
+            "courseview/courseView-min.css": ["courseview/courseView.css", "courseview/viewToolbar.css"]
         },
         "js": {
             "lib/jquery/jquery-min.js": ["lib/jquery/jquery-1.8.2.js", "lib/jquery/jquery.cookie.js", "lib/jquery/jquery.poshytip.js", "lib/jquery/jquery.scrollto.js",

@@ -26,7 +26,7 @@
                 "lib/jquery/jquery.blockui.js", "lib/jquery/jquery.tmpl.js", "lib/jquery/jquery.ellipsis.js", "lib/jquery/jquery.validate.js",
                 "lib/jquery/jquery.dialog.js", "lib/jquery/jquery.zclip.js"
             ],
-            "common/Common-min.js": ["lib/lab/lab.js", "lib/json/json2.js", "common/ext-jsonp.js", "common/Barrett.js", "common/BigInt.js", "common/RSA.js",
+            "common/Common-min.js": ["lib/lab/lab.js", "lib/shiv/json2.js", "common/ext-jsonp.js", "common/Barrett.js", "common/BigInt.js", "common/RSA.js",
                 "common/md5.js", "common/base64.js", "common/ValidUtil.js", "common/widget-datatable.js", "common/module-letter.js", "course/module-cart.js",
                 "common/Common.js", "common/SuggestFramework.js", "common/head.js", "common/site-nav.js", "common/namespace.js", "search/SearchForm.js",
                 "common/NavigationInit.js", "common/CheckIfLogin.js", "common/PaymentPanel.js", "common/Container.js", "common/SendRedirect.js", "common/PagingToolbarEx.js",

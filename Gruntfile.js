@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 
     // internal libs.
     var profileUtil = require('./lib/utils/profile');
+    var log = require('./lib/utils/log');
 
     var startTime = new Date();
     var pkg = grunt.file.readJSON('package.json');
@@ -156,19 +157,22 @@ module.exports = function(grunt) {
         }
     });
 
+
     // load custom tasks. 
     grunt.loadTasks('lib/tasks');
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('prebuild', function() {
+    grunt.registerTask('prebuild', 'A grunt task that for prepare work for build task.', function() {
         // clear filemap to init status.
         require('./lib/common/filemap').clear();
     });
 
     // Default task.
     grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
-    grunt.registerTask('default', ['build']);
+    grunt.registerTask('default', function() {
+	log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);	
+    });
 
 };

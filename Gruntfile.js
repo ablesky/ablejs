@@ -96,7 +96,7 @@ module.exports = function(grunt) {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_js %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['**/*.js', '**/*.swf', '!tinymce/**/*.js'],
+                src: ['**/*.js', '!tinymce/**/*.js'],
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_js %>'
             }

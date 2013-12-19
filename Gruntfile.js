@@ -51,13 +51,17 @@ module.exports = function(grunt) {
         },
         concat: {
             options: {
-                banner: '<%= banner %>'
+                banner: '' // do not add <%= banner %> in concat task.
             },
             css: {
-                files: profileUtil.getConcats('css', pkg.config.src_css)
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_css %>',
+                files: profileUtil.getConcats('css')
             },
             js: {
-                files: profileUtil.getConcats('js', pkg.config.src_js)
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_js %>',
+                files: profileUtil.getConcats('js')
             }
         },
         optiimg: {
@@ -157,11 +161,14 @@ module.exports = function(grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-clean');
+
+    grunt.registerTask('prebuild', function() {
+        // clear filemap to init status.
+        require('./lib/common/filemap').clear();
+    });
 
     // Default task.
-    grunt.registerTask('build', ['clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
+    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
     grunt.registerTask('default', ['build']);
 
 };

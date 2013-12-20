@@ -151,11 +151,6 @@ module.exports = function(grunt) {
                 newstring: 'ableskystatics/images_optimize/'
             }
         },
-        shell: {
-            echo: {
-                command: 'echo Good Job!'
-            }
-        },
         chrono: {
             options: {
                 start: startTime
@@ -188,7 +183,7 @@ module.exports = function(grunt) {
     });
 
     // Default task.
-    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
+    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);
     grunt.registerTask('default', function() {
         log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);
     });

@@ -2,4 +2,4 @@
 node_modules
 .project
 .settings
-dist/filemap.json
+dist/config/filemap.json

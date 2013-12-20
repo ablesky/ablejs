@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 
     // internal libs.
     var profileUtil = require('./lib/utils/profile');
+    var log = require('./lib/utils/log');
 
     var startTime = new Date();
     var pkg = grunt.file.readJSON('package.json');
@@ -51,6 +52,24 @@ module.exports = function(grunt) {
 	                jshintrc: '.jshintdevrc'
                 },
                 src: ['dist/jshint/**/*.js']
+            }
+        },
+        copy: {
+            options: {
+                // overrides this task from blocking deletion of folders outside current working dir (CWD)
+                force: true
+            },
+            image: {
+                src: ['<%= pkg.config.dest_img %>']
+            },
+            css: {
+                src: ['<%= pkg.config.dest_css %>']
+            },
+            js: {
+                src: ['<%= pkg.config.dest_js %>']
+            },
+            jsp: {
+                src: ['<%= pkg.config.dest_jsp %>']
             }
         },
         concat: {
@@ -136,11 +155,6 @@ module.exports = function(grunt) {
                 newstring: 'ableskystatics/images_optimize/'
             }
         },
-        shell: {
-            echo: {
-                command: 'echo Good Job!'
-            }
-        },
         chrono: {
             options: {
                 start: startTime
@@ -162,19 +176,22 @@ module.exports = function(grunt) {
         }
     });
 
+
     // load custom tasks. 
     grunt.loadTasks('lib/tasks');
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('prebuild', function() {
+    grunt.registerTask('prebuild', 'A grunt task that for prepare work for build task.', function() {
         // clear filemap to init status.
         require('./lib/common/filemap').clear();
     });
 
     // Default task.
-    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
-    grunt.registerTask('default', ['build']);
+    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);
+    grunt.registerTask('default', 'A tip for show help.', function() {
+        log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);
+    });
 
 };

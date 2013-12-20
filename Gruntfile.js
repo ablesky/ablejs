@@ -190,7 +190,7 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'shell', 'chrono']);
     grunt.registerTask('default', function() {
-	log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);	
+        log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);
     });
 
 };

@@ -39,15 +39,19 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            options: {
-                // http://www.jshint.com/docs/options/
-                jshintrc: '.jshintrc'
-            },
             ablejs: {
+            	options : {
+	        		// http://www.jshint.com/docs/options/
+	                jshintrc: '.jshintrc'
+	        	},
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             },
             develop: {
-                src: ['<%= pkg.config.src_js %>**/*.js']
+                options : {
+	                // http://www.jshint.com/docs/options/
+	                jshintrc: '.jshintdevrc'
+                },
+                src: ['dist/jshint/**/*.js']
             }
         },
         copy: {
@@ -159,7 +163,9 @@ module.exports = function(grunt) {
         patch: {
             options: {
                 // the flag can turn on/off the jshint task at patch task.
-                jshint: false,
+                jshint: true,
+                // the path to run jshint task
+                jshintpath : 'dist/jshint/',
                 root: {
                     img: getSourceRootDirname(pkg.config.src_img),
                     css: getSourceRootDirname(pkg.config.src_css),

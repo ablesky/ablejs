@@ -2,4 +2,4 @@
 node_modules
 .project
 .settings
-conf/filemap.json
+conf/filemap*.json

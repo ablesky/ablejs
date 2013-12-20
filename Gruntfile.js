@@ -50,6 +50,24 @@ module.exports = function(grunt) {
                 src: ['<%= pkg.config.src_js %>**/*.js']
             }
         },
+        copy: {
+            options: {
+                // overrides this task from blocking deletion of folders outside current working dir (CWD)
+                force: true
+            },
+            image: {
+                src: ['<%= pkg.config.dest_img %>']
+            },
+            css: {
+                src: ['<%= pkg.config.dest_css %>']
+            },
+            js: {
+                src: ['<%= pkg.config.dest_js %>']
+            },
+            jsp: {
+                src: ['<%= pkg.config.dest_jsp %>']
+            }
+        },
         concat: {
             options: {
                 banner: '' // do not add <%= banner %> in concat task.

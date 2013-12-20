@@ -1,65 +1,65 @@
 
 
-dist/jshintDev/lib/**/*.js
+dist/jshint/lib/**/*.js
 
-ableskyPlayer/*.js
+dist/jshint/ableskyPlayer/*.js
 
-applyOrg/*.js
+dist/jshint/applyOrg/*.js
 
-article/*.js
+dist/jshint/article/*.js
 
-buddy/*.js
+dist/jshint/buddy/*.js
 
-categories/*.js
+dist/jshint/categories/*.js
 
-chat/*.js
+dist/jshint/chat/*.js
 
-community/*.js
+dist/jshint/community/*.js
 
-communityForum/*.js
+dist/jshint/communityForum/*.js
 
-documentPlayer/*.js
+dist/jshint/documentPlayer/*.js
 
-download/*.js
+dist/jshint/download/*.js
 
-exam/*.js
+dist/jshint/exam/*.js
 
-favorite/*.js
+dist/jshint/favorite/*.js
 
-feedback/*.js
+dist/jshint/feedback/*.js
 
-flash/*.js
+dist/jshint/flash/*.js
 
-flowplayer3.1/**/*.js
+dist/jshint/dist/jshint/flowplayer3.1/**/*.js
 
-flowplayer3.5/**/*.js
+dist/jshint/flowplayer3.5/**/*.js
 
-groupon/organization/*.js
+dist/jshint/groupon/organization/*.js
 
-lang/*.js
+dist/jshint/lang/*.js
 
-message/*.js
+dist/jshint/message/*.js
 
-myalbums/*.js
+dist/jshint/myalbums/*.js
 
-myhistory/*.js
+dist/jshint/myhistory/*.js
 
-mysky/*.js
+dist/jshint/mysky/*.js
 
-organization/*.js
+dist/jshint/organization/*.js
 
-organizationProfile/*.js
+dist/jshint/organizationProfile/*.js
 
-profile/*.js
+dist/jshint/profile/*.js
 
-publicview/*.js
+dist/jshint/publicview/*.js
 
-repay/*.js
+dist/jshint/repay/*.js
 
-report/*.js
+dist/jshint/report/*.js
 
-tinymce/**/*.js
+dist/jshint/tinymce/**/*.js
 
-upload/*.js
+dist/jshint/upload/*.js
 
 

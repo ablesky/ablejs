@@ -1,6 +1,6 @@
 *.swp
-node_modules
 .project
 .settings
+node_modules
 conf/filemap*.json
 dist/jshint/**/*.js

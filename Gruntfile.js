@@ -6,9 +6,10 @@ module.exports = function(grunt) {
     // internal libs.
     var profileUtil = require('./lib/utils/profile');
     var log = require('./lib/utils/log');
+    var file = require('./lib/utils/file');
 
     var startTime = new Date();
-    var pkg = grunt.file.readJSON('package.json');
+    var pkg = file.readJSON('package.json');
 
     function getSourceRootDirname(path) {
         return path.split('/').pop();
@@ -40,37 +41,39 @@ module.exports = function(grunt) {
         },
         jshint: {
             ablejs: {
-            	options : {
-	        		// http://www.jshint.com/docs/options/
-	                jshintrc: '.jshintrc'
-	        	},
+                options: {
+                    // http://www.jshint.com/docs/options/
+                    jshintrc: '.jshintrc'
+                },
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             },
             develop: {
-                options : {
-	                // http://www.jshint.com/docs/options/
-	                jshintrc: 'conf/.jshintrc'
+                options: {
+                    // http://www.jshint.com/docs/options/
+                    jshintrc: 'conf/.jshintrc'
                 },
                 base: 'dist/jshint/',
                 src: ['<%= jshint.develop.base %>**/*.js']
             }
         },
         copy: {
-            options: {
-                // overrides this task from blocking deletion of folders outside current working dir (CWD)
-                force: true
-            },
-            image: {
-                src: ['<%= pkg.config.dest_img %>']
-            },
             css: {
-                src: ['<%= pkg.config.dest_css %>']
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_css %>',
+                // match all files ending with .css in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['api/ablesky.api.login.css'],
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_css %>',
+                filter: 'isFile'
             },
             js: {
-                src: ['<%= pkg.config.dest_js %>']
-            },
-            jsp: {
-                src: ['<%= pkg.config.dest_jsp %>']
+                // Src matches are relative to this path.
+                cwd: '<%= pkg.config.src_js %>',
+                // match all match files in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['tinymce/**'],
+                // Destination path prefix.
+                dest: '<%= pkg.config.dest_js %>',
+                filter: 'isFile'
             }
         },
         concat: {
@@ -120,7 +123,7 @@ module.exports = function(grunt) {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_js %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['**/*.js', '!tinymce/**/*.js'],
+                src: ['**/*.js', '**/*.swf', '!tinymce/**/*.js'],
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_js %>'
             }
@@ -156,9 +159,9 @@ module.exports = function(grunt) {
         patch: {
             options: {
                 // the flag can turn on/off the jshint task at patch task.
-                jshint: true,
+                jshint: false,
                 // the path to run jshint task
-                jshintpath : '<%= jshint.develop.base %>',
+                jshintpath: '<%= jshint.develop.base %>',
                 root: {
                     img: getSourceRootDirname(pkg.config.src_img),
                     css: getSourceRootDirname(pkg.config.src_css),
@@ -182,7 +185,7 @@ module.exports = function(grunt) {
     });
 
     // Default task.
-    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);
+    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'copy', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);
     grunt.registerTask('default', 'A tip for show help.', function() {
         log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);
     });

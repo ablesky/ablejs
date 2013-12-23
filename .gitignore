@@ -3,3 +3,4 @@ node_modules
 .project
 .settings
 conf/filemap*.json
+dist/jshint/**/*.js

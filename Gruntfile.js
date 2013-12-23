@@ -50,7 +50,8 @@ module.exports = function(grunt) {
                 cwd: 'dist/jshint/',
                 options : {
 	                // http://www.jshint.com/docs/options/
-	                jshintrc: '<%= jshint.develop.base %>.jshintrc'
+	                jshintrc: 'conf/.jshintrc',
+                    jshintignore: 'conf/.jshintignore'
                 },
                 src: ['<%= jshint.develop.base %>**/*.js']
             }

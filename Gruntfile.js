@@ -47,12 +47,11 @@ module.exports = function(grunt) {
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             },
             develop: {
-                cwd: 'dist/jshint/',
                 options : {
 	                // http://www.jshint.com/docs/options/
-	                jshintrc: 'conf/.jshintrc',
-                    jshintignore: 'conf/.jshintignore'
+	                jshintrc: 'conf/.jshintrc'
                 },
+                base: 'dist/jshint/',
                 src: ['<%= jshint.develop.base %>**/*.js']
             }
         },

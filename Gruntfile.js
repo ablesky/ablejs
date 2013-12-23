@@ -47,11 +47,12 @@ module.exports = function(grunt) {
                 src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
             },
             develop: {
+                cwd: 'dist/jshint/',
                 options : {
 	                // http://www.jshint.com/docs/options/
-	                jshintrc: '.jshintdevrc'
+	                jshintrc: '<%= jshint.develop.base %>.jshintrc'
                 },
-                src: ['dist/jshint/**/*.js']
+                src: ['<%= jshint.develop.base %>**/*.js']
             }
         },
         copy: {
@@ -145,14 +146,6 @@ module.exports = function(grunt) {
                 // toreplace can be regexp | str
                 toreplace: /<%=staticsServer%>images/g,
                 newstring: '<%=imgPath%>'
-            },
-            css: {
-                // Src matches are relative to this path.
-                cwd: '<%= pkg.config.dest_css %>',
-                src: ['**/*.css'],
-                // toreplace can be regexp | str
-                toreplace: /ableskystatics\/images\//g,
-                newstring: 'ableskystatics/images_optimize/'
             }
         },
         chrono: {
@@ -165,7 +158,7 @@ module.exports = function(grunt) {
                 // the flag can turn on/off the jshint task at patch task.
                 jshint: true,
                 // the path to run jshint task
-                jshintpath : 'dist/jshint/',
+                jshintpath : '<%= jshint.develop.base %>',
                 root: {
                     img: getSourceRootDirname(pkg.config.src_img),
                     css: getSourceRootDirname(pkg.config.src_css),

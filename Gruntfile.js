@@ -177,7 +177,6 @@ module.exports = function(grunt) {
         }
     });
 
-
     // load custom tasks. 
     grunt.loadTasks('lib/tasks');
 
@@ -185,7 +184,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Default task.
-    grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'copy', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);
+    grunt.registerTask('build', ['clean', 'concat', 'copy', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);
     grunt.registerTask('default', 'A tip for show help.', function() {
         log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);
     });

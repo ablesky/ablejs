@@ -10,16 +10,17 @@ var path = require('path');
 // internal libs.
 var log = require('../lib/utils/log');
 var argv = require('../lib/utils/argv');
+var filemap = require('../lib/common/filemap');
+
 
 argv.init(process.argv);
 
 var basedir = path.resolve(__dirname + '/../');
 var cli = argv.get('cli');
-var debugMode = argv.get('debug');
 var colorMode = 'console';
 
 process.chdir(basedir);
-log.setDebugMode(debugMode);
+log.debugMode = argv.get('debug');
 
 switch (argv.get('colors')) {
     case null:

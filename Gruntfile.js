@@ -3,12 +3,17 @@ module.exports = function(grunt) {
 
     'use strict';
 
+    // node libs.
+    var path = require('path');
+
     // internal libs.
     var profileUtil = require('./lib/utils/profile');
     var log = require('./lib/utils/log');
     var file = require('./lib/utils/file');
+    // var argv = require('./lib/utils/argv');
 
     var startTime = new Date();
+    // var projectName = argv.get('project') || ''; // project name.
     var pkg = file.readJSON('package.json');
 
     function getSourceRootDirname(path) {
@@ -178,11 +183,6 @@ module.exports = function(grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-
-    grunt.registerTask('prebuild', 'A grunt task that for prepare work for build task.', function() {
-        // clear filemap to init status.
-        require('./lib/common/filemap').clear();
-    });
 
     // Default task.
     grunt.registerTask('build', ['prebuild', 'clean', 'concat', 'copy', 'optiimg', 'opticss', 'optijs', 'optijsp', 'chrono']);

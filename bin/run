@@ -3,6 +3,7 @@
 'use strict';
 
 process.title = 'the statics build tools for ablesky';
+process.chdir(__dirname + '/../');
 
 // Nodejs libs.
 var path = require('path');
@@ -12,14 +13,12 @@ var log = require('../lib/utils/log');
 var argv = require('../lib/utils/argv');
 var filemap = require('../lib/common/filemap');
 
-
 argv.init(process.argv);
 
-var basedir = path.resolve(__dirname + '/../');
+var basedir = process.cwd();
 var cli = argv.get('cli');
 var colorMode = 'console';
 
-process.chdir(basedir);
 log.debugMode = argv.get('debug');
 
 switch (argv.get('colors')) {

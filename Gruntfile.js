@@ -10,10 +10,8 @@ module.exports = function(grunt) {
     var profileUtil = require('./lib/utils/profile');
     var log = require('./lib/utils/log');
     var file = require('./lib/utils/file');
-    // var argv = require('./lib/utils/argv');
 
     var startTime = new Date();
-    // var projectName = argv.get('project') || ''; // project name.
     var pkg = file.readJSON('package.json');
 
     function getSourceRootDirname(path) {

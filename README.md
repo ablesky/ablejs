@@ -19,7 +19,7 @@ build project in command line, by typing:
 
 patch in command line, by typing: 
     
-    ablejs patch --project /your/patch/directory/in/file/system/
+    ablejs patch:/your/patch/directory/in/file/system/ --project $projectName
 
 ### Documents
 See the [documents](doc/README.md).

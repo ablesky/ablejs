@@ -63,6 +63,7 @@
   "_from": "ablejs/",
   "devDependencies": {
     "ssh2": "~0.2.14",
-    "mocha": "~1.16.2"
+    "mocha": "~1.16.2",
+    "grunt-cli": "~0.1.11"
   }
 }

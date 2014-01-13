@@ -10,7 +10,11 @@ else
 	git clone https://github.com/ablesky/ablejs.git 
 fi
 
-npm install -g ablejs
+npm install -g ablejs/
 
-rm -rf $ablejsDir
+if [ $? == 0 ]
+    then
+    rm -rf $ablejsDir
+fi
+
 

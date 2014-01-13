@@ -12,7 +12,7 @@ fi
 
 npm install -g ablejs/
 
-if [ $? == 0 ]
+if [ $? -eq 0 ]
     then
     rm -rf $ablejsDir
 fi

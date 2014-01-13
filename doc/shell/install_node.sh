@@ -26,6 +26,13 @@
 
 # Install NodeJS 
 nodeVersion=$1
+
+if [ $# -eq 0 ]
+    then
+    echo "please specify node version args, like 'v0.10.00'."
+    exit 1
+fi
+
 filename="node-$nodeVersion.tar.gz"
 downloadLink="http://nodejs.org/dist/$nodeVersion/$filename"
 

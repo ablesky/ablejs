@@ -4,7 +4,8 @@
 
 #### Options
 
-| *Names*    | *Value*                | *Description*                |
-| ---------- | ---------------------- | ---------------------------- |
-| colors     | console/browser/none   | Specify output color & style |
-| project    |                        | Specify current project name |
+| *Names*    | *Value*               | *Description*          |
+| ---------- | --------------------- | ---------------------- |
+| colors     | console/browser/none  | output color & style   |
+| project    | $projectName          | current project name   |
+| cli        | true/false            | command-line mode      |

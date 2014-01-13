@@ -11,4 +11,3 @@
 * 4 - Template processing error
 * 5 - Invalid shell auto - completion rules error
 * 6 - Warning
-

@@ -4,6 +4,5 @@
 
 #### cli
 
-* ablejs --cli --filemap-fingerprint hashcode
-* ablejs --cli --filemap-path relative/path.js
-
+* ``` ablejs --cli --filemap-fingerprint hashcode ```
+* ``` ablejs --cli --filemap-path relative/path.js ```

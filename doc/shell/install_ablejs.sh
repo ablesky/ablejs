@@ -4,10 +4,10 @@ ablejsDir="ablejs"
 
 cd /tmp/
 if [ -d "$ablejsDir" ]
-	then
-	echo "$ablejsDir directory found."
+    then
+    echo "$ablejsDir directory found."
 else
-	git clone https://github.com/ablesky/ablejs.git 
+    git clone https://github.com/ablesky/ablejs.git 
 fi
 
 npm install -g ablejs/

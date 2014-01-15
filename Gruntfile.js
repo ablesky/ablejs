@@ -73,7 +73,7 @@ module.exports = function(grunt) {
                 // Src matches are relative to this path.
                 cwd: '<%= pkg.config.src_js %>',
                 // match all match files in the ${cwd}/ subdirectory and all of its subdirectories.
-                src: ['tinymce/**'],
+                src: ['api/ablesky.api.login.js', 'tinymce/**'],
                 // Destination path prefix.
                 dest: '<%= pkg.config.dest_js %>',
                 filter: 'isFile'

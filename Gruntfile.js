@@ -50,7 +50,7 @@ module.exports = function(grunt) {
             develop: {
                 options: {
                     // http://www.jshint.com/docs/options/
-                    jshintrc: 'conf/.jshintrc'
+                    jshintrc: path.join(mimes.js.src_path, '.jshintrc')
                 },
                 base: 'dist/jshint/',
                 src: ['<%= jshint.develop.base %>**/*.js']

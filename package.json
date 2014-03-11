@@ -4,16 +4,6 @@
   "description": "The statics build tools for ablesky",
   "homepage": "http://www.ablesky.com",
   "main": "Gruntfile.js",
-  "config": {
-    "src_js": "/tmp/statics/js",
-    "dest_js": "/tmp/statics/js_optimize",
-    "src_css": "/tmp/statics/css",
-    "dest_css": "/tmp/statics/stylecss_optimize",
-    "src_img": "/tmp/statics/images",
-    "dest_img": "/tmp/statics/images_optimize",
-    "src_jsp": "/tmp/statics/jsp",
-    "dest_jsp": "/tmp/statics/jsp_optimize"
-  },
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.3",

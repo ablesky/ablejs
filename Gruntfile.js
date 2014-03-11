@@ -10,18 +10,15 @@ module.exports = function(grunt) {
     var profileUtil = require('./lib/utils/profile');
     var log = require('./lib/utils/log');
     var file = require('./lib/utils/file');
+    var mimes = require('./lib/common/mimes');
 
-    var startTime = new Date();
     var pkg = file.readJSON('package.json');
-
-    function getSourceRootDirname(path) {
-        return path.split('/').pop();
-    }
 
     // Project configuration.
     grunt.initConfig({
         // Metadata.
         pkg: pkg,
+        mimes: mimes,
         banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n' + '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + '* Copyright (c) <%= grunt.template.today("yyyy") %> frontend@ablesky.com;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
         // Task configuration.
         clean: {
@@ -30,16 +27,16 @@ module.exports = function(grunt) {
                 force: true
             },
             image: {
-                src: ['<%= pkg.config.dest_img %>']
+                src: ['<%= mimes.image.dest_path %>']
             },
             css: {
-                src: ['<%= pkg.config.dest_css %>']
+                src: ['<%= mimes.css.dest_path %>']
             },
             js: {
-                src: ['<%= pkg.config.dest_js %>']
+                src: ['<%= mimes.js.dest_path %>']
             },
             jsp: {
-                src: ['<%= pkg.config.dest_jsp %>']
+                src: ['<%= mimes.tmpl.dest_path %>']
             }
         },
         jshint: {
@@ -62,20 +59,20 @@ module.exports = function(grunt) {
         copy: {
             css: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_css %>',
+                cwd: '<%= mimes.css.src_path %>',
                 // match all files ending with .css in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['api/ablesky.api.login.css'],
                 // Destination path prefix.
-                dest: '<%= pkg.config.dest_css %>',
+                dest: '<%= mimes.css.dest_path %>',
                 filter: 'isFile'
             },
             js: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_js %>',
+                cwd: '<%= mimes.js.src_path %>',
                 // match all match files in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['api/ablesky.api.login.js', 'tinymce/**'],
                 // Destination path prefix.
-                dest: '<%= pkg.config.dest_js %>',
+                dest: '<%= mimes.js.dest_path %>',
                 filter: 'isFile'
             }
         },
@@ -85,23 +82,23 @@ module.exports = function(grunt) {
             },
             css: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_css %>',
+                cwd: '<%= mimes.css.src_path %>',
                 files: profileUtil.getConcats('css')
             },
             js: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_js %>',
+                cwd: '<%= mimes.js.src_path %>',
                 files: profileUtil.getConcats('js')
             }
         },
         optiimg: {
             files: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_img %>',
+                cwd: '<%= mimes.image.src_path %>',
                 // match all files in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['**/*', '!**/*.psd'],
                 // Destination path prefix.
-                dest: '<%= pkg.config.dest_img %>',
+                dest: '<%= mimes.image.dest_path %>',
                 filter: 'isFile'
             }
         },
@@ -111,11 +108,11 @@ module.exports = function(grunt) {
             },
             files: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_css %>',
+                cwd: '<%= mimes.css.src_path %>',
                 // match all files ending with .css in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['**/*.css', '!api/ablesky.api.login.css'],
                 // Destination path prefix.
-                dest: '<%= pkg.config.dest_css %>'
+                dest: '<%= mimes.css.dest_path %>'
             }
         },
         optijs: {
@@ -124,30 +121,30 @@ module.exports = function(grunt) {
             },
             files: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_js %>',
+                cwd: '<%= mimes.js.src_path %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['**/*.js', '**/*.swf', '!tinymce/**/*.js'],
                 // Destination path prefix.
-                dest: '<%= pkg.config.dest_js %>'
+                dest: '<%= mimes.js.dest_path %>'
             }
         },
         optijsp: {
             options: {
-                jsBasePath: '<%= pkg.config.src_js %>',
+                jsBasePath: '<%= mimes.js.src_path %>',
             },
             files: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.src_jsp %>',
+                cwd: '<%= mimes.tmpl.src_path %>',
                 // match all files ending with .js in the ${cwd}/ subdirectory and all of its subdirectories.
                 src: ['**/*.jsp'],
                 // Destination path prefix.
-                dest: '<%= pkg.config.dest_jsp %>'
+                dest: '<%= mimes.tmpl.dest_path %>'
             }
         },
         replace: {
             jsp: {
                 // Src matches are relative to this path.
-                cwd: '<%= pkg.config.dest_jsp %>',
+                cwd: '<%= mimes.tmpl.dest_path %>',
                 src: ['**/*.jsp'],
                 // toreplace can be regexp | str
                 toreplace: /<%=staticsServer%>images/g,
@@ -156,7 +153,7 @@ module.exports = function(grunt) {
         },
         chrono: {
             options: {
-                start: startTime
+                start: new Date()
             }
         },
         patch: {
@@ -166,10 +163,10 @@ module.exports = function(grunt) {
                 // the path to run jshint task
                 jshintpath: '<%= jshint.develop.base %>',
                 root: {
-                    img: getSourceRootDirname(pkg.config.src_img),
-                    css: getSourceRootDirname(pkg.config.src_css),
-                    js: getSourceRootDirname(pkg.config.src_js),
-                    jsp: getSourceRootDirname(pkg.config.src_jsp)
+                    img: mimes.image.src_dir,
+                    css: mimes.css.src_dir,
+                    js: mimes.js.src_dir,
+                    jsp: mimes.tmpl.src_dir
                 }
             }
         }

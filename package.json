@@ -19,7 +19,8 @@
     "crc": "~0.2.1",
     "madge": "~0.1.7",
     "nopt": "~2.1.2",
-    "esprima": "~1.0.4"
+    "esprima": "~1.0.4",
+    "source-map": "^0.1.33"
   },
   "bin": {
     "ablejs": "./bin/run"

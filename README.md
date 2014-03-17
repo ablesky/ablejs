@@ -5,10 +5,9 @@ ablejs
 
 <a href="https://nodei.co/npm/ablejs/"><img src="https://nodei.co/npm/ablejs.png"></a>
 
-### 3 steps Installation
-1. ``` git clone git@github.com:ablesky/ablejs.git ```
-2. ``` npm install -g ablejs ```
-3. find ``` package.json ``` file, modify the package config, and specify the places where your code put in the file system.
+### Installation
+ ``` git clone git@github.com:ablesky/ablejs.git ```
+ ``` npm install -g ablejs ```
 
 ### Usage
 

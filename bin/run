@@ -11,8 +11,6 @@ var path = require('path');
 // internal libs.
 var log = require('../lib/utils/log');
 var argv = require('../lib/utils/argv');
-var filemap = require('../lib/common/filemap');
-
 
 var basedir = process.cwd();
 var cli = argv.get('cli');
@@ -33,7 +31,9 @@ switch (argv.get('colors')) {
 
 log.setColorMode(colorMode);
 
-if (cli) {
+if (argv.list().length === 0) {
+    log.writeln('Try `ablejs -h` or `ablejs --help` for more information.'.help);
+} else if (cli) {
     // command-line interface for ablejs.
     require('../lib/common/cli');
 } else {

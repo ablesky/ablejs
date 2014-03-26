@@ -57,6 +57,15 @@ module.exports = function(grunt) {
             }
         },
         copy: {
+            profile: {
+                // Src matches are relative to this path.
+                cwd: '<%= mimes.js.src_path %>',
+                // match all match files in the ${cwd}/ subdirectory and all of its subdirectories.
+                src: ['profile.json'],
+                // Destination path prefix.
+                dest: '<%= mimes.js.src_path %>',
+                filter: 'isFile'
+            },
             css: {
                 // Src matches are relative to this path.
                 cwd: '<%= mimes.css.src_path %>',

@@ -139,7 +139,7 @@ module.exports = function(grunt) {
         },
         optijsp: {
             options: {
-                jsBasePath: '<%= mimes.js.src_path %>',
+                jsBasePath: '<%= mimes.js.src_path %>'
             },
             files: {
                 // Src matches are relative to this path.

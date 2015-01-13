@@ -7,6 +7,7 @@ ablejs
 
 ### Installation
     git clone git@github.com:ablesky/ablejs.git
+    cd ablejs
     npm install -g ablejs
 
 ### Usage

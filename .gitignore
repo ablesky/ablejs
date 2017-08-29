@@ -1,6 +1,8 @@
 *.swp
 .project
 .settings
+.vscode
 node_modules
+temp
 conf/filemap*.json
 dist/*

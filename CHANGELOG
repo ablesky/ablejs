@@ -2,3 +2,8 @@ v0.1.0:
   date: 2013-10-12
   changes:
     - Finally first release of 0.1.0.
+
+v0.1.1:
+  date: 2017-9-1
+  changes:
+    - support mobile web application that embeded in main project
